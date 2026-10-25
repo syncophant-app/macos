@@ -62,3 +62,25 @@ jobs:
             gh release create "$GITHUB_REF_NAME" --verify-tag --title "$GITHUB_REF_NAME" --generate-notes
           gh release upload "$GITHUB_REF_NAME" --clobber \
             build/Syncophant.dmg build/Syncophant-*.zip build/*.sha256 build/*.tar.gz
+      - name: Bump Homebrew cask
+        # Pre-release tags such as v1.2.0-beta.1 do not update the cask.
+        if: ${{ !contains(github.ref_name, '-') }}
+        env:
+          TAP_DEPLOY_KEY: ${{ secrets.HOMEBREW_TAP_DEPLOY_KEY }}
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          sha256=$(shasum -a 256 "build/Syncophant-$version-arm64.zip" | cut -d ' ' -f 1)
+          key="$RUNNER_TEMP/tap_deploy_key"
+          printf '%s\n' "$TAP_DEPLOY_KEY" > "$key"
+          chmod 600 "$key"
+          export GIT_SSH_COMMAND="ssh -i $key -o IdentitiesOnly=yes -o StrictHostKeyChecking=accept-new"
+          git clone --depth 1 git@github.com:syncophant-app/homebrew-tap.git "$RUNNER_TEMP/homebrew-tap"
+          cd "$RUNNER_TEMP/homebrew-tap"
+          sed -i '' -E \
+            -e "s/^  version \".*\"/  version \"$version\"/" \
+            -e "s/^  sha256 \".*\"/  sha256 \"$sha256\"/" \
+            Casks/syncophant.rb
+          git diff --quiet && { echo "Cask already at $version."; exit 0; }
+          git -c user.name='github-actions[bot]' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
+            commit -am "syncophant $version"
+          git push
