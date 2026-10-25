@@ -241,7 +241,7 @@ private struct CryptStalledHelper {
         executable = directory.appendingPathComponent("helper")
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true,
                                                 attributes: [.posixPermissions: 0o700])
-        let script = "#!/bin/sh\nIFS= read -r initial\nprintf '%s\\n' '{\"name\":\"rclone-crypt-v1.72.1\"}'\n" + body
+        let script = "#!/bin/sh\nIFS= read -r initial\nprintf '%s\\n' '{\"name\":\"rclone-crypt-v1.75.2\"}'\n" + body
         try Data(script.utf8).write(to: executable)
         try FileManager.default.setAttributes([.posixPermissions: 0o700], ofItemAtPath: executable.path)
     }

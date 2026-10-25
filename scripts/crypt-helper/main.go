@@ -77,7 +77,7 @@ func main() {
 		_ = output.Encode(response{Error: "credentials"})
 		return
 	}
-	if output.Encode(response{Name: "rclone-crypt-v1.72.1"}) != nil {
+	if output.Encode(response{Name: "rclone-crypt-v1.75.2"}) != nil {
 		return
 	}
 	uploads := map[string]*upload{}

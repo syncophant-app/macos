@@ -16,8 +16,8 @@ jobs:
       SYNCOPHANT_DISTRIBUTION: 1
       SYNCOPHANT_NOTARY_PROFILE: syncophant-notary
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-go@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-go@v7
         with:
           go-version-file: scripts/crypt-helper/go.mod
       - name: Install build tools

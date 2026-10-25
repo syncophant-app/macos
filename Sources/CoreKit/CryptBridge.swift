@@ -130,7 +130,7 @@ actor CryptBridge {
         output = outputPipe.fileHandleForReading
         try await send(Request(op: "init", password: password, password2: password2))
         let response = try await receive()
-        guard response.name == "rclone-crypt-v1.72.1", response.error == nil else {
+        guard response.name == "rclone-crypt-v1.75.2", response.error == nil else {
             stop()
             throw CryptStoreError.helperProtocol
         }

@@ -8,8 +8,8 @@ jobs:
   macos:
     runs-on: macos-26
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-go@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-go@v7
         with:
           go-version-file: scripts/crypt-helper/go.mod
       - name: Install build tools
@@ -24,7 +24,7 @@ jobs:
         run: bash scripts/test.sh
       - name: Build app and File Provider
         run: bash scripts/build.sh
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: Syncophant-unsigned
           path: build/DerivedData/Build/Products/Debug/Syncophant.app

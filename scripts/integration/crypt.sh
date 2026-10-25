@@ -22,7 +22,7 @@ from pathlib import Path
 
 proof = Path(os.environ['SYNCOPHANT_CRYPT_PROOF'])
 rclone = '/usr/local/bin/rclone'
-assert subprocess.check_output([rclone, 'version']).splitlines()[0] == b'rclone v1.72.1'
+assert subprocess.check_output([rclone, 'version']).splitlines()[0] == b'rclone v1.75.2'
 # Public fixture values only; stdin/env keep even these out of argv and config files.
 def obscure(value):
     return subprocess.check_output([rclone, 'obscure', '-'], input=value.encode()).decode().strip()

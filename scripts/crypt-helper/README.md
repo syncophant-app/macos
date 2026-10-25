@@ -1,13 +1,13 @@
 # rclone crypt helper
 
-Build with Go 1.25 or newer:
+Build with Go 1.26 or newer:
 
 ```sh
 go build -trimpath -o /absolute/path/to/syncophant-crypt .
 ```
 
 `go.mod` and `go.sum` pin the official `github.com/rclone/rclone` module to
-v1.72.1. rclone is MIT licensed; its notice is in `LICENSE-rclone`. Include
+v1.75.2. rclone is MIT licensed; its notice is in `LICENSE-rclone`. Include
 `THIRD_PARTY_NOTICES.txt` in distributed third-party notices; it contains the
 top-level license/notice files for the compiled dependency modules and Go standard library.
 Go produces a

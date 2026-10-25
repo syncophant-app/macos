@@ -9,7 +9,7 @@ package.relative_path = '.'
 project.root_object.package_references << package
 sparkle = project.new(Xcodeproj::Project::Object::XCRemoteSwiftPackageReference)
 sparkle.repositoryURL = 'https://github.com/sparkle-project/Sparkle'
-sparkle.requirement = { 'kind' => 'exactVersion', 'version' => '2.10.0' }
+sparkle.requirement = { 'kind' => 'exactVersion', 'version' => '2.10.1' }
 project.root_object.package_references << sparkle
 
 def product(project, target, package, name)
