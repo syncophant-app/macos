@@ -13,6 +13,7 @@ import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
 from email.utils import format_datetime
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+from socketserver import TCPServer
 from xml.sax.saxutils import escape
 
 DATE = datetime(2025, 1, 2, 3, 4, 5, tzinfo=timezone.utc)
@@ -25,6 +26,14 @@ MULTIPART = {}
 HISTORY = []
 CONTROLS = {}
 COUNTER = 0
+
+
+class LoopbackHTTPServer(ThreadingHTTPServer):
+    def server_bind(self):
+        # This disposable loopback server must not wait for reverse DNS.
+        TCPServer.server_bind(self)
+        self.server_name = 'localhost'
+        self.server_port = self.server_address[1]
 
 
 def put(path, data):
@@ -317,7 +326,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--ready-file', required=True)
     args = parser.parse_args()
-    server = ThreadingHTTPServer(('127.0.0.1', 0), Handler)
+    server = LoopbackHTTPServer(('127.0.0.1', 0), Handler)
     server.endpoint = f'http://127.0.0.1:{server.server_port}'
     with open(args.ready_file, 'w') as file:
         file.write(server.endpoint)

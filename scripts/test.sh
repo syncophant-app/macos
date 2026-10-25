@@ -1,6 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 cd "$(dirname "$0")/.."
+python3 scripts/http-fixture-self-check.py
 [[ -f .deps/.libssh2-1.11.1-openssl359 ]] || bash scripts/bootstrap.sh
 export PKG_CONFIG_PATH="$PWD/.deps/lib/pkgconfig:${PKG_CONFIG_PATH:-}"
 bash scripts/build-crypt-helper.sh
