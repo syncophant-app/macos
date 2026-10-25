@@ -1,0 +1,1071 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		00A15420FC9F68E625678B89 /* syncophant-crypt in Resources */ = {isa = PBXBuildFile; fileRef = 6CB8810751D319287764104B /* syncophant-crypt */; };
+		06BC5AAE911219D8AD39C11C /* SyncophantAgentRendezvous in Embed SSH Agent Rendezvous */ = {isa = PBXBuildFile; fileRef = DD2976DCD6961E20E05CC8AC /* SyncophantAgentRendezvous */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		072E3E32ADDE98A586220161 /* SharedConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07B97C6A713B751432E92211 /* SharedConfig.swift */; };
+		09E302FF6D649B7993F0A53F /* PalettePanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96415CDE479E2C6DD6D5349C /* PalettePanel.swift */; };
+		0A8F5088A5D61431177BE520 /* FilesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AFAF9EAD320F4C762A4087B /* FilesView.swift */; };
+		145019AF506F86BAB00A7692 /* ConnectChecks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC8D542431BBDE930ACB634 /* ConnectChecks.swift */; };
+		14AAF8C36D92E3DCE193E9D6 /* DriveManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B117ADDC11190C493CD6AB5B /* DriveManager.swift */; };
+		1C4AE64A074CD08B09C0C7D1 /* AddStorageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7F3BB886EED2F41611D401 /* AddStorageView.swift */; };
+		1CF06D81BE1F8ED532D9EF3B /* CachePolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DF285102405D03B885DED2D /* CachePolicy.swift */; };
+		1E1169214B395390E511438C /* NetworkContacts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926E0CAFE28B89A19AE5F93A /* NetworkContacts.swift */; };
+		20FCE105B71B5367E5D048B0 /* OpenSSL.txt in Resources */ = {isa = PBXBuildFile; fileRef = DF8FFB74555A542903AD1A49 /* OpenSSL.txt */; };
+		24070ED13E60355E67391932 /* SSHAgentXPCProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ACF82367E14A66490C2FE9A /* SSHAgentXPCProtocol.swift */; };
+		25C34C5BE6F6CF89E7F79A86 /* app.syncophant.mac.agent-rendezvous.plist in Embed SSH Agent LaunchAgent */ = {isa = PBXBuildFile; fileRef = CEEA30209D22326DA1B3936B /* app.syncophant.mac.agent-rendezvous.plist */; };
+		26C2D9521128D8D5C659707A /* MenuBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A156435C71F5B814CAB982 /* MenuBarView.swift */; };
+		29A36998FCFC6C3AD4905CCE /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = F8CBAFDBC1937336CE80553A /* Sparkle */; };
+		301C10FD11FEA43955E08381 /* StatusKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0D436C42B1F75B6A3E1E4E /* StatusKit.swift */; };
+		3484632129A7113ECE7E3E0C /* Library-LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = FC276142BC69B637EFE61259 /* Library-LICENSE.txt */; };
+		3852760AFB5A19BA6739C6B5 /* ActivityViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 376EFF7642BF8EAA6E9A8A1A /* ActivityViews.swift */; };
+		3A389025254C16A9566BEAD7 /* ActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7A6BF59F0EED667E5975FA8 /* ActivityView.swift */; };
+		3B1480067ADEAD84073BFC78 /* StorageCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3597BF1B214561D48EDC1BC2 /* StorageCredentials.swift */; };
+		3D56CA9FEBD193D99D3038A0 /* AMSMB2-LGPL-2.1.txt in Resources */ = {isa = PBXBuildFile; fileRef = D276B894090A19816303F762 /* AMSMB2-LGPL-2.1.txt */; };
+		3D99684BEA32C19AA95707A0 /* SSHAgentBroker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882017114283F39627FA206A /* SSHAgentBroker.swift */; };
+		3F37C45DDABD6DC298F4B7D0 /* AppModel+UploadDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D7B441F744271A55689E08F /* AppModel+UploadDestination.swift */; };
+		40996439E539641F0951BF92 /* CoreKit in Frameworks */ = {isa = PBXBuildFile; productRef = EE3393C2FA16AE0A0B43EA15 /* CoreKit */; };
+		40E6D26744CB0AE9A65B6473 /* AppModel+Finder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA0B66B783A6A8E435BA61C /* AppModel+Finder.swift */; };
+		40FB9A6F453401D0F9756C2D /* ConnectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E831710AC69D53EFFF524CA /* ConnectView.swift */; };
+		49793562E8D516C80D4EE1DC /* SyncophantApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC92309AA318C4C35DCB3361 /* SyncophantApp.swift */; };
+		4B66FC0E242875137AB32575 /* syncophant-crypt in Resources */ = {isa = PBXBuildFile; fileRef = 4CB7DD695FA556B844859D62 /* syncophant-crypt */; };
+		4D6441300EBF3E7ED4C4614E /* TreeLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48417908E28CE4E3B85FE912 /* TreeLoader.swift */; };
+		50C1EE6F74AFA2F68636EA87 /* SSHCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306B208213233329F87BE076 /* SSHCredentials.swift */; };
+		51F569DFC7FE95131F2321F3 /* SSHAgentBroker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5B450FED58AE1A94CD42409 /* SSHAgentBroker.swift */; };
+		536822472C14EE0D6D0F6998 /* Demo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37126A9D33EA2C8C9E5C74CD /* Demo.swift */; };
+		545E982E14CBEA22FE03AE33 /* BackupModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1127B84015D2C2A63C5013D /* BackupModels.swift */; };
+		5689346CC3FE33C40C6BBB70 /* ProviderEnumerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1382BC547422029C4DAD0739 /* ProviderEnumerator.swift */; };
+		56973CECA9F483684DE70B2D /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1381C2DE5535521C8AE0437A /* Models.swift */; };
+		585ECE8B028EFDC269E86196 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A19AB9177DA8C6D2DB2316 /* Theme.swift */; };
+		5E96E7FE9BE4268FBB9E3FA8 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81637ABF8387E7BB5C55FA54 /* SettingsView.swift */; };
+		5F483A71B98F5162FCC58C7A /* THIRD_PARTY_NOTICES.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0A6B2D0E1DD7931FAF1C42F2 /* THIRD_PARTY_NOTICES.txt */; };
+		603B726262B5923E86D474DC /* MenuBarIcon.svg in Resources */ = {isa = PBXBuildFile; fileRef = C15AFB04B6E681E987641157 /* MenuBarIcon.svg */; };
+		64A524E972F675B0F7ED2CEE /* ProviderItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF61326CA252CFC3FA85AB5 /* ProviderItem.swift */; };
+		662DC671F0BAA0E8EBD7064C /* SSHAgentXPCProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4704745DB1E71A0BF66CEA2B /* SSHAgentXPCProtocol.swift */; };
+		67E36EB3DDE268667EBA08D5 /* TimeTravelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A32CBE3B9D56E331B30C79 /* TimeTravelView.swift */; };
+		69C1E503FD2E01A14E272EC1 /* SSHSetupViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EDBAA23EDA415815C97EB76 /* SSHSetupViews.swift */; };
+		6A2FCB1D60F9D3E9BC16BDCE /* SnapshotsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D232A97D911BD6031F1C1E3 /* SnapshotsView.swift */; };
+		6A333F86A1222B1F6C0A245B /* EncryptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9462563B5C07B1C90A242EB /* EncryptionView.swift */; };
+		6CDB3F3F9AC2A9DB312A4FCC /* FileOutline.swift in Sources */ = {isa = PBXBuildFile; fileRef = F57DEF849A3938B2AE7F4961 /* FileOutline.swift */; };
+		6DEA0105D8E880CE2995F636 /* ProviderJournal.swift in Sources */ = {isa = PBXBuildFile; fileRef = C57FD8CF2A9C21E7BD33519F /* ProviderJournal.swift */; };
+		6F589BD7A520C4E81C6699CE /* TrashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819970B8B551472CC16701DF /* TrashView.swift */; };
+		716835F447B015F158495333 /* libssh2.txt in Resources */ = {isa = PBXBuildFile; fileRef = FED8481849C8BFDDAC904754 /* libssh2.txt */; };
+		760DE04915E7BE2AB71026EC /* EncryptionKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29101FC3A94D8786626ED337 /* EncryptionKeys.swift */; };
+		7632121040D8BD3D8623EFE4 /* AppModel+Snapshots.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF074C55A9145F8C16F7C591 /* AppModel+Snapshots.swift */; };
+		7C16B451ACE9BFB0BE8912EC /* SettingsStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAEA41193C3F1E9C0D729EC4 /* SettingsStorage.swift */; };
+		7D788381AEF725C46F3FD821 /* StatusItemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E14D43F36756E9CA200131 /* StatusItemController.swift */; };
+		7FDB4CC86DCC9C5EB3F9308C /* ConnectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F401F849D110D65D20836DD /* ConnectModel.swift */; };
+		808B151F6CD17BFA505FC86D /* BackupsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83E7C174A8E7FA58645C58CB /* BackupsView.swift */; };
+		869D3972232AB2CD96EBD1B0 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 8C2EDF2D969374DC0E93C8D2 /* LICENSE */; };
+		88B3FE2F2BCA62AABF57D1DD /* MenuBarIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765A5D411F28CEEB178F6DCB /* MenuBarIcon.swift */; };
+		896848527C8DFFD3E1E65F36 /* AppUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5F796AB565967F37CE2BB0 /* AppUpdater.swift */; };
+		8A2EB39104B7AF2D0335D17B /* AppModel+Transfers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49116D4786C69CB4FCC89339 /* AppModel+Transfers.swift */; };
+		8A87CCA783040EF167F101CC /* ProviderRuntime.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3DBAF2EF1111469BD0994C6 /* ProviderRuntime.swift */; };
+		8B28B14C4F736E4B90333BBE /* AppIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 259C0A083B0E055F27B4D841 /* AppIcon.icns */; };
+		8E0AD3F2D75E82E629F030A4 /* AppModel+Browse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841F359D6E690EE5D490C0B9 /* AppModel+Browse.swift */; };
+		905A7B13F3E8B895E4DD4140 /* CommandPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA11A6BF99C7DED55F9C5DA /* CommandPalette.swift */; };
+		947B2CA03ED792E02B58E6F4 /* CoreKit in Frameworks */ = {isa = PBXBuildFile; productRef = 10EE08BDDDA2C24A4A76E2FD /* CoreKit */; };
+		98F0B971235CDDFF3BC7D318 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D30FF3A694BFE69B65371148 /* main.swift */; };
+		9A145A2A3480BBECBA426D2A /* MainWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9A8549DECDB2F061050DE86 /* MainWindow.swift */; };
+		9BC300CE5AC1500C5DE7F499 /* SharedConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1B9B317649AAA5F167C7DA7 /* SharedConfig.swift */; };
+		9CB1EFA0A59FE036ABF8AC63 /* SyncophantProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A4CBE0DB213C507E62841C9 /* SyncophantProvider.swift */; };
+		9D0EA29AAFA220244E6AE08B /* HetznerKit in Frameworks */ = {isa = PBXBuildFile; productRef = 2E41594F9CBAE4152D1955A8 /* HetznerKit */; };
+		9FFE929F31C07D7D888FCBE8 /* MenuBarPanelDrop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 147321502F38E60F3C9953B1 /* MenuBarPanelDrop.swift */; };
+		A5DD0728A91EE48FE1476C12 /* SSHAgentRendezvous.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AEB451B1128AB2439524FF6 /* SSHAgentRendezvous.swift */; };
+		A97DBCE665422A5C88225424 /* UploadDestinationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CDD8BEA8E833F5010C31A7 /* UploadDestinationView.swift */; };
+		B5E691AA335B571CB914974B /* SettingsPrivacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB6C47B438C1EFBDF435593 /* SettingsPrivacy.swift */; };
+		B618A99F14D2B60A2205EDEB /* CacheBudget.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC750597754277865CDFBA4 /* CacheBudget.swift */; };
+		B92CB81346FF37A9B8A76E17 /* BackupJobsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40BDA1543BA178E1A0F4E673 /* BackupJobsView.swift */; };
+		B99CF5CFA24486D9F5BD37DF /* AppModel+Jobs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E3D078B507390A3A1FF4F3E /* AppModel+Jobs.swift */; };
+		BAE4EB039EEBD7B7567BCC1E /* Support.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8AEB026331B610B0BB6327 /* Support.swift */; };
+		BBAA44D7EDDED7250AADD012 /* FilesInspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC8D103E36D0D395D8A6126C /* FilesInspector.swift */; };
+		BD80A52D9157B0C3FD75B7A6 /* SSHAgentRendezvous.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8595DA10F729D70D8157A6 /* SSHAgentRendezvous.swift */; };
+		BF353BF6C6B0EEBE029ED218 /* CachePolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01F4C32167EA71AABB2CD99 /* CachePolicy.swift */; };
+		C41F8393DF1DFD0BE3DC8FE5 /* AppModel+Recovery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778276EC6F320287053153B4 /* AppModel+Recovery.swift */; };
+		D3746420473019C479BA4657 /* SSHAgentXPCProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40ED023C6A9867B57D8EF1CE /* SSHAgentXPCProtocol.swift */; };
+		D4F3A2C61EB82571E62A21E4 /* StorageCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DC62ED1E282B2534737B9FA /* StorageCredentials.swift */; };
+		DA456C7FB78F7A92521DD584 /* NetworkContacts.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FE56E3040822C755D24208 /* NetworkContacts.swift */; };
+		DD492C867BA7FD1BE6FEF879 /* SyncophantProvider.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 0FC92EED985E6A71B6F1C34D /* SyncophantProvider.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		DF84A66CBC644F6BD2232B8E /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E2F8700FF9DA103367F0FFF /* AppModel.swift */; };
+		E0DB096D84F96B437DCC3908 /* AppModel+Sharing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5302144F33D0D80411D4789A /* AppModel+Sharing.swift */; };
+		E203ADA99E7124A10C60CB47 /* SSHAgentRendezvous.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A3570AC855262D05124D23 /* SSHAgentRendezvous.swift */; };
+		EDB37241A373388F75A5F4FA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 358BCD7591779B5346E30FE2 /* Cocoa.framework */; };
+		EEBA5D152E292919B97D92BB /* AppModel+Shell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C2D952974C78FB3CA25EAC /* AppModel+Shell.swift */; };
+		F067EE8B180C35DE0F71D916 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 358BCD7591779B5346E30FE2 /* Cocoa.framework */; };
+		F12ECE472B773D64378088E5 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 358BCD7591779B5346E30FE2 /* Cocoa.framework */; };
+		F2E64FA126320F0F2881FEFA /* ShareStorageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6384086AD2202E1491A1D1FB /* ShareStorageView.swift */; };
+		F300B43377C7A03068AC8320 /* AppModel+ConnectStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4D83C038ACF61ADE195B0F /* AppModel+ConnectStorage.swift */; };
+		FAE7B8FA37D504EBE7827308 /* MultiProtocolConnectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DCA660F0A7111654DEC2DE /* MultiProtocolConnectView.swift */; };
+		FEA83CF80EB1021F1B173D7B /* SSHCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2D7DCD6018590FFD27B97E /* SSHCredentials.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		4F9C9FE0CE5302311361C1BF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A16B96703C58C10C1B010EFA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FCA071153F67F9EDB4490CAC;
+			remoteInfo = SyncophantProvider;
+		};
+		C38F6E75244C80B774029CD9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A16B96703C58C10C1B010EFA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8CE8C213A599D69ED11CCFE7;
+			remoteInfo = SyncophantAgentRendezvous;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		3BF754A7C81FD8A0904D1CA8 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				DD492C867BA7FD1BE6FEF879 /* SyncophantProvider.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		719722A0507ACE989FDAD3B9 /* Embed SSH Agent Rendezvous */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 6;
+			files = (
+				06BC5AAE911219D8AD39C11C /* SyncophantAgentRendezvous in Embed SSH Agent Rendezvous */,
+			);
+			name = "Embed SSH Agent Rendezvous";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ABF31065C3D4D3DA40634049 /* Embed SSH Agent LaunchAgent */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = Contents/Library/LaunchAgents;
+			dstSubfolderSpec = 1;
+			files = (
+				25C34C5BE6F6CF89E7F79A86 /* app.syncophant.mac.agent-rendezvous.plist in Embed SSH Agent LaunchAgent */,
+			);
+			name = "Embed SSH Agent LaunchAgent";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		07B97C6A713B751432E92211 /* SharedConfig.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SharedConfig.swift; path = Sources/PlatformShared/SharedConfig.swift; sourceTree = "<group>"; };
+		08DCA660F0A7111654DEC2DE /* MultiProtocolConnectView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MultiProtocolConnectView.swift; path = Sources/SyncophantApp/MultiProtocolConnectView.swift; sourceTree = "<group>"; };
+		0A6B2D0E1DD7931FAF1C42F2 /* THIRD_PARTY_NOTICES.txt */ = {isa = PBXFileReference; includeInIndex = 1; name = THIRD_PARTY_NOTICES.txt; path = "scripts/crypt-helper/THIRD_PARTY_NOTICES.txt"; sourceTree = "<group>"; };
+		0D232A97D911BD6031F1C1E3 /* SnapshotsView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SnapshotsView.swift; path = Sources/SyncophantApp/SnapshotsView.swift; sourceTree = "<group>"; };
+		0FC92EED985E6A71B6F1C34D /* SyncophantProvider.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SyncophantProvider.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		10E14D43F36756E9CA200131 /* StatusItemController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = StatusItemController.swift; path = Sources/SyncophantApp/StatusItemController.swift; sourceTree = "<group>"; };
+		1381C2DE5535521C8AE0437A /* Models.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Models.swift; path = Sources/SyncophantApp/Models.swift; sourceTree = "<group>"; };
+		1382BC547422029C4DAD0739 /* ProviderEnumerator.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ProviderEnumerator.swift; path = Sources/FileProviderExtension/ProviderEnumerator.swift; sourceTree = "<group>"; };
+		147321502F38E60F3C9953B1 /* MenuBarPanelDrop.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MenuBarPanelDrop.swift; path = Sources/SyncophantApp/MenuBarPanelDrop.swift; sourceTree = "<group>"; };
+		1A4D83C038ACF61ADE195B0F /* AppModel+ConnectStorage.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "AppModel+ConnectStorage.swift"; path = "Sources/SyncophantApp/AppModel+ConnectStorage.swift"; sourceTree = "<group>"; };
+		1E2F8700FF9DA103367F0FFF /* AppModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AppModel.swift; path = Sources/SyncophantApp/AppModel.swift; sourceTree = "<group>"; };
+		259C0A083B0E055F27B4D841 /* AppIcon.icns */ = {isa = PBXFileReference; includeInIndex = 1; name = AppIcon.icns; path = Assets/AppIcon.icns; sourceTree = "<group>"; };
+		28A32CBE3B9D56E331B30C79 /* TimeTravelView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TimeTravelView.swift; path = Sources/SyncophantApp/TimeTravelView.swift; sourceTree = "<group>"; };
+		29101FC3A94D8786626ED337 /* EncryptionKeys.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = EncryptionKeys.swift; path = Sources/SyncophantApp/EncryptionKeys.swift; sourceTree = "<group>"; };
+		29A3570AC855262D05124D23 /* SSHAgentRendezvous.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SSHAgentRendezvous.swift; path = Sources/PlatformShared/SSHAgentRendezvous.swift; sourceTree = "<group>"; };
+		2AEB451B1128AB2439524FF6 /* SSHAgentRendezvous.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SSHAgentRendezvous.swift; path = Sources/PlatformShared/SSHAgentRendezvous.swift; sourceTree = "<group>"; };
+		2AFAF9EAD320F4C762A4087B /* FilesView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FilesView.swift; path = Sources/SyncophantApp/FilesView.swift; sourceTree = "<group>"; };
+		2DC62ED1E282B2534737B9FA /* StorageCredentials.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = StorageCredentials.swift; path = Sources/PlatformShared/StorageCredentials.swift; sourceTree = "<group>"; };
+		2F401F849D110D65D20836DD /* ConnectModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConnectModel.swift; path = Sources/SyncophantApp/ConnectModel.swift; sourceTree = "<group>"; };
+		306B208213233329F87BE076 /* SSHCredentials.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SSHCredentials.swift; path = Sources/PlatformShared/SSHCredentials.swift; sourceTree = "<group>"; };
+		358BCD7591779B5346E30FE2 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.0.sdk/System/Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
+		3597BF1B214561D48EDC1BC2 /* StorageCredentials.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = StorageCredentials.swift; path = Sources/PlatformShared/StorageCredentials.swift; sourceTree = "<group>"; };
+		37126A9D33EA2C8C9E5C74CD /* Demo.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Demo.swift; path = Sources/SyncophantApp/Demo.swift; sourceTree = "<group>"; };
+		376EFF7642BF8EAA6E9A8A1A /* ActivityViews.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ActivityViews.swift; path = Sources/SyncophantApp/ActivityViews.swift; sourceTree = "<group>"; };
+		3AF61326CA252CFC3FA85AB5 /* ProviderItem.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ProviderItem.swift; path = Sources/FileProviderExtension/ProviderItem.swift; sourceTree = "<group>"; };
+		3E831710AC69D53EFFF524CA /* ConnectView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConnectView.swift; path = Sources/SyncophantApp/ConnectView.swift; sourceTree = "<group>"; };
+		3F8595DA10F729D70D8157A6 /* SSHAgentRendezvous.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SSHAgentRendezvous.swift; path = Sources/PlatformShared/SSHAgentRendezvous.swift; sourceTree = "<group>"; };
+		40BDA1543BA178E1A0F4E673 /* BackupJobsView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BackupJobsView.swift; path = Sources/SyncophantApp/BackupJobsView.swift; sourceTree = "<group>"; };
+		40ED023C6A9867B57D8EF1CE /* SSHAgentXPCProtocol.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SSHAgentXPCProtocol.swift; path = Sources/PlatformShared/SSHAgentXPCProtocol.swift; sourceTree = "<group>"; };
+		4704745DB1E71A0BF66CEA2B /* SSHAgentXPCProtocol.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SSHAgentXPCProtocol.swift; path = Sources/PlatformShared/SSHAgentXPCProtocol.swift; sourceTree = "<group>"; };
+		48417908E28CE4E3B85FE912 /* TreeLoader.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TreeLoader.swift; path = Sources/SyncophantApp/TreeLoader.swift; sourceTree = "<group>"; };
+		49116D4786C69CB4FCC89339 /* AppModel+Transfers.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "AppModel+Transfers.swift"; path = "Sources/SyncophantApp/AppModel+Transfers.swift"; sourceTree = "<group>"; };
+		4CB7DD695FA556B844859D62 /* syncophant-crypt */ = {isa = PBXFileReference; includeInIndex = 1; name = "syncophant-crypt"; path = ".deps/bin/syncophant-crypt"; sourceTree = "<group>"; };
+		5302144F33D0D80411D4789A /* AppModel+Sharing.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "AppModel+Sharing.swift"; path = "Sources/SyncophantApp/AppModel+Sharing.swift"; sourceTree = "<group>"; };
+		5E3D078B507390A3A1FF4F3E /* AppModel+Jobs.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "AppModel+Jobs.swift"; path = "Sources/SyncophantApp/AppModel+Jobs.swift"; sourceTree = "<group>"; };
+		6384086AD2202E1491A1D1FB /* ShareStorageView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ShareStorageView.swift; path = Sources/SyncophantApp/ShareStorageView.swift; sourceTree = "<group>"; };
+		67A19AB9177DA8C6D2DB2316 /* Theme.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Theme.swift; path = Sources/SyncophantApp/Theme.swift; sourceTree = "<group>"; };
+		6A4CBE0DB213C507E62841C9 /* SyncophantProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SyncophantProvider.swift; path = Sources/FileProviderExtension/SyncophantProvider.swift; sourceTree = "<group>"; };
+		6ACF82367E14A66490C2FE9A /* SSHAgentXPCProtocol.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SSHAgentXPCProtocol.swift; path = Sources/PlatformShared/SSHAgentXPCProtocol.swift; sourceTree = "<group>"; };
+		6CB8810751D319287764104B /* syncophant-crypt */ = {isa = PBXFileReference; includeInIndex = 1; name = "syncophant-crypt"; path = ".deps/bin/syncophant-crypt"; sourceTree = "<group>"; };
+		6DF285102405D03B885DED2D /* CachePolicy.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CachePolicy.swift; path = Sources/PlatformShared/CachePolicy.swift; sourceTree = "<group>"; };
+		6EDBAA23EDA415815C97EB76 /* SSHSetupViews.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SSHSetupViews.swift; path = Sources/SyncophantApp/SSHSetupViews.swift; sourceTree = "<group>"; };
+		765A5D411F28CEEB178F6DCB /* MenuBarIcon.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MenuBarIcon.swift; path = Sources/SyncophantApp/MenuBarIcon.swift; sourceTree = "<group>"; };
+		778276EC6F320287053153B4 /* AppModel+Recovery.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "AppModel+Recovery.swift"; path = "Sources/SyncophantApp/AppModel+Recovery.swift"; sourceTree = "<group>"; };
+		7B0D436C42B1F75B6A3E1E4E /* StatusKit.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = StatusKit.swift; path = Sources/SyncophantApp/StatusKit.swift; sourceTree = "<group>"; };
+		7BC8D542431BBDE930ACB634 /* ConnectChecks.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConnectChecks.swift; path = Sources/SyncophantApp/ConnectChecks.swift; sourceTree = "<group>"; };
+		7D7B441F744271A55689E08F /* AppModel+UploadDestination.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "AppModel+UploadDestination.swift"; path = "Sources/SyncophantApp/AppModel+UploadDestination.swift"; sourceTree = "<group>"; };
+		81637ABF8387E7BB5C55FA54 /* SettingsView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SettingsView.swift; path = Sources/SyncophantApp/SettingsView.swift; sourceTree = "<group>"; };
+		819970B8B551472CC16701DF /* TrashView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TrashView.swift; path = Sources/SyncophantApp/TrashView.swift; sourceTree = "<group>"; };
+		83E7C174A8E7FA58645C58CB /* BackupsView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BackupsView.swift; path = Sources/SyncophantApp/BackupsView.swift; sourceTree = "<group>"; };
+		841F359D6E690EE5D490C0B9 /* AppModel+Browse.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "AppModel+Browse.swift"; path = "Sources/SyncophantApp/AppModel+Browse.swift"; sourceTree = "<group>"; };
+		84CDD8BEA8E833F5010C31A7 /* UploadDestinationView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = UploadDestinationView.swift; path = Sources/SyncophantApp/UploadDestinationView.swift; sourceTree = "<group>"; };
+		882017114283F39627FA206A /* SSHAgentBroker.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SSHAgentBroker.swift; path = Sources/PlatformShared/SSHAgentBroker.swift; sourceTree = "<group>"; };
+		8C2EDF2D969374DC0E93C8D2 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE; sourceTree = "<group>"; };
+		8C7F3BB886EED2F41611D401 /* AddStorageView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AddStorageView.swift; path = Sources/SyncophantApp/AddStorageView.swift; sourceTree = "<group>"; };
+		8F5F796AB565967F37CE2BB0 /* AppUpdater.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AppUpdater.swift; path = Sources/SyncophantApp/AppUpdater.swift; sourceTree = "<group>"; };
+		926E0CAFE28B89A19AE5F93A /* NetworkContacts.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = NetworkContacts.swift; path = Sources/PlatformShared/NetworkContacts.swift; sourceTree = "<group>"; };
+		96415CDE479E2C6DD6D5349C /* PalettePanel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PalettePanel.swift; path = Sources/SyncophantApp/PalettePanel.swift; sourceTree = "<group>"; };
+		A1127B84015D2C2A63C5013D /* BackupModels.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BackupModels.swift; path = Sources/SyncophantApp/BackupModels.swift; sourceTree = "<group>"; };
+		B117ADDC11190C493CD6AB5B /* DriveManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DriveManager.swift; path = Sources/SyncophantApp/DriveManager.swift; sourceTree = "<group>"; };
+		B1B9B317649AAA5F167C7DA7 /* SharedConfig.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SharedConfig.swift; path = Sources/PlatformShared/SharedConfig.swift; sourceTree = "<group>"; };
+		B1C2D952974C78FB3CA25EAC /* AppModel+Shell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "AppModel+Shell.swift"; path = "Sources/SyncophantApp/AppModel+Shell.swift"; sourceTree = "<group>"; };
+		B8FE56E3040822C755D24208 /* NetworkContacts.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = NetworkContacts.swift; path = Sources/PlatformShared/NetworkContacts.swift; sourceTree = "<group>"; };
+		BAEA41193C3F1E9C0D729EC4 /* SettingsStorage.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SettingsStorage.swift; path = Sources/SyncophantApp/SettingsStorage.swift; sourceTree = "<group>"; };
+		BFB6C47B438C1EFBDF435593 /* SettingsPrivacy.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SettingsPrivacy.swift; path = Sources/SyncophantApp/SettingsPrivacy.swift; sourceTree = "<group>"; };
+		C15AFB04B6E681E987641157 /* MenuBarIcon.svg */ = {isa = PBXFileReference; includeInIndex = 1; name = MenuBarIcon.svg; path = Assets/MenuBarIcon.svg; sourceTree = "<group>"; };
+		C57FD8CF2A9C21E7BD33519F /* ProviderJournal.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ProviderJournal.swift; path = Sources/FileProviderExtension/ProviderJournal.swift; sourceTree = "<group>"; };
+		C5B450FED58AE1A94CD42409 /* SSHAgentBroker.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SSHAgentBroker.swift; path = Sources/PlatformShared/SSHAgentBroker.swift; sourceTree = "<group>"; };
+		C9462563B5C07B1C90A242EB /* EncryptionView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = EncryptionView.swift; path = Sources/SyncophantApp/EncryptionView.swift; sourceTree = "<group>"; };
+		CC8D103E36D0D395D8A6126C /* FilesInspector.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FilesInspector.swift; path = Sources/SyncophantApp/FilesInspector.swift; sourceTree = "<group>"; };
+		CEA0B66B783A6A8E435BA61C /* AppModel+Finder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "AppModel+Finder.swift"; path = "Sources/SyncophantApp/AppModel+Finder.swift"; sourceTree = "<group>"; };
+		CEEA30209D22326DA1B3936B /* app.syncophant.mac.agent-rendezvous.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; name = "app.syncophant.mac.agent-rendezvous.plist"; path = "Config/app.syncophant.mac.agent-rendezvous.plist"; sourceTree = "<group>"; };
+		D276B894090A19816303F762 /* AMSMB2-LGPL-2.1.txt */ = {isa = PBXFileReference; includeInIndex = 1; name = "AMSMB2-LGPL-2.1.txt"; path = "docs/licenses/AMSMB2-LGPL-2.1.txt"; sourceTree = "<group>"; };
+		D30FF3A694BFE69B65371148 /* main.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = main.swift; path = Sources/AgentRendezvous/main.swift; sourceTree = "<group>"; };
+		D83D42D66E88C466F4B99632 /* Syncophant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Syncophant.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD2976DCD6961E20E05CC8AC /* SyncophantAgentRendezvous */ = {isa = PBXFileReference; includeInIndex = 0; path = SyncophantAgentRendezvous; sourceTree = BUILT_PRODUCTS_DIR; };
+		DF8FFB74555A542903AD1A49 /* OpenSSL.txt */ = {isa = PBXFileReference; includeInIndex = 1; name = OpenSSL.txt; path = .deps/notices/OpenSSL.txt; sourceTree = "<group>"; };
+		E01F4C32167EA71AABB2CD99 /* CachePolicy.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CachePolicy.swift; path = Sources/PlatformShared/CachePolicy.swift; sourceTree = "<group>"; };
+		E0A156435C71F5B814CAB982 /* MenuBarView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MenuBarView.swift; path = Sources/SyncophantApp/MenuBarView.swift; sourceTree = "<group>"; };
+		E7A6BF59F0EED667E5975FA8 /* ActivityView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ActivityView.swift; path = Sources/SyncophantApp/ActivityView.swift; sourceTree = "<group>"; };
+		EF074C55A9145F8C16F7C591 /* AppModel+Snapshots.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "AppModel+Snapshots.swift"; path = "Sources/SyncophantApp/AppModel+Snapshots.swift"; sourceTree = "<group>"; };
+		EF2D7DCD6018590FFD27B97E /* SSHCredentials.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SSHCredentials.swift; path = Sources/PlatformShared/SSHCredentials.swift; sourceTree = "<group>"; };
+		EFA11A6BF99C7DED55F9C5DA /* CommandPalette.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CommandPalette.swift; path = Sources/SyncophantApp/CommandPalette.swift; sourceTree = "<group>"; };
+		F3DBAF2EF1111469BD0994C6 /* ProviderRuntime.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ProviderRuntime.swift; path = Sources/FileProviderExtension/ProviderRuntime.swift; sourceTree = "<group>"; };
+		F57DEF849A3938B2AE7F4961 /* FileOutline.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FileOutline.swift; path = Sources/SyncophantApp/FileOutline.swift; sourceTree = "<group>"; };
+		F9A8549DECDB2F061050DE86 /* MainWindow.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MainWindow.swift; path = Sources/SyncophantApp/MainWindow.swift; sourceTree = "<group>"; };
+		FC276142BC69B637EFE61259 /* Library-LICENSE.txt */ = {isa = PBXFileReference; includeInIndex = 1; name = "Library-LICENSE.txt"; path = "Config/Library-LICENSE.txt"; sourceTree = "<group>"; };
+		FC92309AA318C4C35DCB3361 /* SyncophantApp.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SyncophantApp.swift; path = Sources/SyncophantApp/SyncophantApp.swift; sourceTree = "<group>"; };
+		FD8AEB026331B610B0BB6327 /* Support.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Support.swift; path = Sources/SyncophantApp/Support.swift; sourceTree = "<group>"; };
+		FED8481849C8BFDDAC904754 /* libssh2.txt */ = {isa = PBXFileReference; includeInIndex = 1; name = libssh2.txt; path = .deps/notices/libssh2.txt; sourceTree = "<group>"; };
+		FFC750597754277865CDFBA4 /* CacheBudget.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CacheBudget.swift; path = Sources/FileProviderExtension/CacheBudget.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		5BE490F96A6179BD57D35DAC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F12ECE472B773D64378088E5 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8BBE6B8A7A003555BDE02130 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EDB37241A373388F75A5F4FA /* Cocoa.framework in Frameworks */,
+				947B2CA03ED792E02B58E6F4 /* CoreKit in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D59FEFEB020E316DB162A1F8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F067EE8B180C35DE0F71D916 /* Cocoa.framework in Frameworks */,
+				40996439E539641F0951BF92 /* CoreKit in Frameworks */,
+				9D0EA29AAFA220244E6AE08B /* HetznerKit in Frameworks */,
+				29A36998FCFC6C3AD4905CCE /* Sparkle in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		04C2D9C980669A108DCFCDCD /* OS X */ = {
+			isa = PBXGroup;
+			children = (
+				358BCD7591779B5346E30FE2 /* Cocoa.framework */,
+			);
+			name = "OS X";
+			sourceTree = "<group>";
+		};
+		23991273A2DE419426BA9EC3 = {
+			isa = PBXGroup;
+			children = (
+				2B656A7A3C5A0C3B9090685D /* Products */,
+				55A54EB248D93980F3B35773 /* Frameworks */,
+				BB19797436F065551F2C4162 /* SSH Agent Rendezvous */,
+				ECFB4DB827EF044A0BA8637E /* Syncophant */,
+				587D20D05DA6B76D760FAB98 /* Acknowledgements */,
+				259C0A083B0E055F27B4D841 /* AppIcon.icns */,
+				C15AFB04B6E681E987641157 /* MenuBarIcon.svg */,
+				E42DFF6F1B59A0D5728E95F6 /* SyncophantProvider */,
+				CEEA30209D22326DA1B3936B /* app.syncophant.mac.agent-rendezvous.plist */,
+			);
+			sourceTree = "<group>";
+		};
+		2B656A7A3C5A0C3B9090685D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D83D42D66E88C466F4B99632 /* Syncophant.app */,
+				0FC92EED985E6A71B6F1C34D /* SyncophantProvider.appex */,
+				DD2976DCD6961E20E05CC8AC /* SyncophantAgentRendezvous */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		55A54EB248D93980F3B35773 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				04C2D9C980669A108DCFCDCD /* OS X */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		587D20D05DA6B76D760FAB98 /* Acknowledgements */ = {
+			isa = PBXGroup;
+			children = (
+				DF8FFB74555A542903AD1A49 /* OpenSSL.txt */,
+				FED8481849C8BFDDAC904754 /* libssh2.txt */,
+				8C2EDF2D969374DC0E93C8D2 /* LICENSE */,
+				FC276142BC69B637EFE61259 /* Library-LICENSE.txt */,
+				D276B894090A19816303F762 /* AMSMB2-LGPL-2.1.txt */,
+				0A6B2D0E1DD7931FAF1C42F2 /* THIRD_PARTY_NOTICES.txt */,
+			);
+			name = Acknowledgements;
+			sourceTree = "<group>";
+		};
+		BB19797436F065551F2C4162 /* SSH Agent Rendezvous */ = {
+			isa = PBXGroup;
+			children = (
+				D30FF3A694BFE69B65371148 /* main.swift */,
+				4704745DB1E71A0BF66CEA2B /* SSHAgentXPCProtocol.swift */,
+				2AEB451B1128AB2439524FF6 /* SSHAgentRendezvous.swift */,
+			);
+			name = "SSH Agent Rendezvous";
+			sourceTree = "<group>";
+		};
+		E42DFF6F1B59A0D5728E95F6 /* SyncophantProvider */ = {
+			isa = PBXGroup;
+			children = (
+				FFC750597754277865CDFBA4 /* CacheBudget.swift */,
+				1382BC547422029C4DAD0739 /* ProviderEnumerator.swift */,
+				3AF61326CA252CFC3FA85AB5 /* ProviderItem.swift */,
+				C57FD8CF2A9C21E7BD33519F /* ProviderJournal.swift */,
+				F3DBAF2EF1111469BD0994C6 /* ProviderRuntime.swift */,
+				6A4CBE0DB213C507E62841C9 /* SyncophantProvider.swift */,
+				E01F4C32167EA71AABB2CD99 /* CachePolicy.swift */,
+				B8FE56E3040822C755D24208 /* NetworkContacts.swift */,
+				882017114283F39627FA206A /* SSHAgentBroker.swift */,
+				29A3570AC855262D05124D23 /* SSHAgentRendezvous.swift */,
+				40ED023C6A9867B57D8EF1CE /* SSHAgentXPCProtocol.swift */,
+				306B208213233329F87BE076 /* SSHCredentials.swift */,
+				B1B9B317649AAA5F167C7DA7 /* SharedConfig.swift */,
+				3597BF1B214561D48EDC1BC2 /* StorageCredentials.swift */,
+				6CB8810751D319287764104B /* syncophant-crypt */,
+			);
+			name = SyncophantProvider;
+			sourceTree = "<group>";
+		};
+		ECFB4DB827EF044A0BA8637E /* Syncophant */ = {
+			isa = PBXGroup;
+			children = (
+				E7A6BF59F0EED667E5975FA8 /* ActivityView.swift */,
+				376EFF7642BF8EAA6E9A8A1A /* ActivityViews.swift */,
+				8C7F3BB886EED2F41611D401 /* AddStorageView.swift */,
+				841F359D6E690EE5D490C0B9 /* AppModel+Browse.swift */,
+				1A4D83C038ACF61ADE195B0F /* AppModel+ConnectStorage.swift */,
+				CEA0B66B783A6A8E435BA61C /* AppModel+Finder.swift */,
+				5E3D078B507390A3A1FF4F3E /* AppModel+Jobs.swift */,
+				778276EC6F320287053153B4 /* AppModel+Recovery.swift */,
+				5302144F33D0D80411D4789A /* AppModel+Sharing.swift */,
+				B1C2D952974C78FB3CA25EAC /* AppModel+Shell.swift */,
+				EF074C55A9145F8C16F7C591 /* AppModel+Snapshots.swift */,
+				49116D4786C69CB4FCC89339 /* AppModel+Transfers.swift */,
+				7D7B441F744271A55689E08F /* AppModel+UploadDestination.swift */,
+				1E2F8700FF9DA103367F0FFF /* AppModel.swift */,
+				8F5F796AB565967F37CE2BB0 /* AppUpdater.swift */,
+				40BDA1543BA178E1A0F4E673 /* BackupJobsView.swift */,
+				A1127B84015D2C2A63C5013D /* BackupModels.swift */,
+				83E7C174A8E7FA58645C58CB /* BackupsView.swift */,
+				EFA11A6BF99C7DED55F9C5DA /* CommandPalette.swift */,
+				7BC8D542431BBDE930ACB634 /* ConnectChecks.swift */,
+				2F401F849D110D65D20836DD /* ConnectModel.swift */,
+				3E831710AC69D53EFFF524CA /* ConnectView.swift */,
+				37126A9D33EA2C8C9E5C74CD /* Demo.swift */,
+				B117ADDC11190C493CD6AB5B /* DriveManager.swift */,
+				29101FC3A94D8786626ED337 /* EncryptionKeys.swift */,
+				C9462563B5C07B1C90A242EB /* EncryptionView.swift */,
+				F57DEF849A3938B2AE7F4961 /* FileOutline.swift */,
+				CC8D103E36D0D395D8A6126C /* FilesInspector.swift */,
+				2AFAF9EAD320F4C762A4087B /* FilesView.swift */,
+				F9A8549DECDB2F061050DE86 /* MainWindow.swift */,
+				765A5D411F28CEEB178F6DCB /* MenuBarIcon.swift */,
+				147321502F38E60F3C9953B1 /* MenuBarPanelDrop.swift */,
+				E0A156435C71F5B814CAB982 /* MenuBarView.swift */,
+				1381C2DE5535521C8AE0437A /* Models.swift */,
+				08DCA660F0A7111654DEC2DE /* MultiProtocolConnectView.swift */,
+				96415CDE479E2C6DD6D5349C /* PalettePanel.swift */,
+				6EDBAA23EDA415815C97EB76 /* SSHSetupViews.swift */,
+				BFB6C47B438C1EFBDF435593 /* SettingsPrivacy.swift */,
+				BAEA41193C3F1E9C0D729EC4 /* SettingsStorage.swift */,
+				81637ABF8387E7BB5C55FA54 /* SettingsView.swift */,
+				6384086AD2202E1491A1D1FB /* ShareStorageView.swift */,
+				0D232A97D911BD6031F1C1E3 /* SnapshotsView.swift */,
+				10E14D43F36756E9CA200131 /* StatusItemController.swift */,
+				7B0D436C42B1F75B6A3E1E4E /* StatusKit.swift */,
+				FD8AEB026331B610B0BB6327 /* Support.swift */,
+				FC92309AA318C4C35DCB3361 /* SyncophantApp.swift */,
+				67A19AB9177DA8C6D2DB2316 /* Theme.swift */,
+				28A32CBE3B9D56E331B30C79 /* TimeTravelView.swift */,
+				819970B8B551472CC16701DF /* TrashView.swift */,
+				48417908E28CE4E3B85FE912 /* TreeLoader.swift */,
+				84CDD8BEA8E833F5010C31A7 /* UploadDestinationView.swift */,
+				6DF285102405D03B885DED2D /* CachePolicy.swift */,
+				926E0CAFE28B89A19AE5F93A /* NetworkContacts.swift */,
+				C5B450FED58AE1A94CD42409 /* SSHAgentBroker.swift */,
+				3F8595DA10F729D70D8157A6 /* SSHAgentRendezvous.swift */,
+				6ACF82367E14A66490C2FE9A /* SSHAgentXPCProtocol.swift */,
+				EF2D7DCD6018590FFD27B97E /* SSHCredentials.swift */,
+				07B97C6A713B751432E92211 /* SharedConfig.swift */,
+				2DC62ED1E282B2534737B9FA /* StorageCredentials.swift */,
+				4CB7DD695FA556B844859D62 /* syncophant-crypt */,
+			);
+			name = Syncophant;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		35421BF15EB87589251B6CE4 /* Syncophant */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8CF3CCB54DC31E1979A8223E /* Build configuration list for PBXNativeTarget "Syncophant" */;
+			buildPhases = (
+				CFD2F80BA0D972E719A13DE7 /* Sources */,
+				D59FEFEB020E316DB162A1F8 /* Frameworks */,
+				B9D53B2D67F8AB03B0D6EFFB /* Resources */,
+				719722A0507ACE989FDAD3B9 /* Embed SSH Agent Rendezvous */,
+				ABF31065C3D4D3DA40634049 /* Embed SSH Agent LaunchAgent */,
+				3BF754A7C81FD8A0904D1CA8 /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				680D3B80F85632362E5E5332 /* PBXTargetDependency */,
+				08996AD7BD88436693C7D59D /* PBXTargetDependency */,
+			);
+			name = Syncophant;
+			packageProductDependencies = (
+				EE3393C2FA16AE0A0B43EA15 /* CoreKit */,
+				2E41594F9CBAE4152D1955A8 /* HetznerKit */,
+				F8CBAFDBC1937336CE80553A /* Sparkle */,
+			);
+			productName = Syncophant;
+			productReference = D83D42D66E88C466F4B99632 /* Syncophant.app */;
+			productType = "com.apple.product-type.application";
+		};
+		8CE8C213A599D69ED11CCFE7 /* SyncophantAgentRendezvous */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 83DD6E38CB317EA01FB726E8 /* Build configuration list for PBXNativeTarget "SyncophantAgentRendezvous" */;
+			buildPhases = (
+				C4E7DDFCB410E323942DFD75 /* Sources */,
+				5BE490F96A6179BD57D35DAC /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SyncophantAgentRendezvous;
+			productName = SyncophantAgentRendezvous;
+			productReference = DD2976DCD6961E20E05CC8AC /* SyncophantAgentRendezvous */;
+			productType = "com.apple.product-type.tool";
+		};
+		FCA071153F67F9EDB4490CAC /* SyncophantProvider */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8E51B335DC305241D4DF953C /* Build configuration list for PBXNativeTarget "SyncophantProvider" */;
+			buildPhases = (
+				D653F617EFBBDADF85B47128 /* Sources */,
+				8BBE6B8A7A003555BDE02130 /* Frameworks */,
+				EE8CB6BC443326B0F936C312 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SyncophantProvider;
+			packageProductDependencies = (
+				10EE08BDDDA2C24A4A76E2FD /* CoreKit */,
+			);
+			productName = SyncophantProvider;
+			productReference = 0FC92EED985E6A71B6F1C34D /* SyncophantProvider.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A16B96703C58C10C1B010EFA /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1600;
+				LastUpgradeCheck = 2700;
+			};
+			buildConfigurationList = B3D569FD3320814FED31388F /* Build configuration list for PBXProject "Syncophant" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 23991273A2DE419426BA9EC3;
+			minimizedProjectReferenceProxies = 0;
+			packageReferences = (
+				CCAD415610DD43DE42FEDB65 /* XCLocalSwiftPackageReference "." */,
+				0B3386E46A57C498C1B254FA /* XCRemoteSwiftPackageReference "Sparkle" */,
+			);
+			preferredProjectObjectVersion = 100;
+			productRefGroup = 2B656A7A3C5A0C3B9090685D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				35421BF15EB87589251B6CE4 /* Syncophant */,
+				FCA071153F67F9EDB4490CAC /* SyncophantProvider */,
+				8CE8C213A599D69ED11CCFE7 /* SyncophantAgentRendezvous */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		B9D53B2D67F8AB03B0D6EFFB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4B66FC0E242875137AB32575 /* syncophant-crypt in Resources */,
+				20FCE105B71B5367E5D048B0 /* OpenSSL.txt in Resources */,
+				716835F447B015F158495333 /* libssh2.txt in Resources */,
+				8B28B14C4F736E4B90333BBE /* AppIcon.icns in Resources */,
+				603B726262B5923E86D474DC /* MenuBarIcon.svg in Resources */,
+				869D3972232AB2CD96EBD1B0 /* LICENSE in Resources */,
+				3484632129A7113ECE7E3E0C /* Library-LICENSE.txt in Resources */,
+				3D56CA9FEBD193D99D3038A0 /* AMSMB2-LGPL-2.1.txt in Resources */,
+				5F483A71B98F5162FCC58C7A /* THIRD_PARTY_NOTICES.txt in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EE8CB6BC443326B0F936C312 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				00A15420FC9F68E625678B89 /* syncophant-crypt in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C4E7DDFCB410E323942DFD75 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				98F0B971235CDDFF3BC7D318 /* main.swift in Sources */,
+				662DC671F0BAA0E8EBD7064C /* SSHAgentXPCProtocol.swift in Sources */,
+				A5DD0728A91EE48FE1476C12 /* SSHAgentRendezvous.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CFD2F80BA0D972E719A13DE7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3A389025254C16A9566BEAD7 /* ActivityView.swift in Sources */,
+				3852760AFB5A19BA6739C6B5 /* ActivityViews.swift in Sources */,
+				1C4AE64A074CD08B09C0C7D1 /* AddStorageView.swift in Sources */,
+				8E0AD3F2D75E82E629F030A4 /* AppModel+Browse.swift in Sources */,
+				F300B43377C7A03068AC8320 /* AppModel+ConnectStorage.swift in Sources */,
+				40E6D26744CB0AE9A65B6473 /* AppModel+Finder.swift in Sources */,
+				B99CF5CFA24486D9F5BD37DF /* AppModel+Jobs.swift in Sources */,
+				C41F8393DF1DFD0BE3DC8FE5 /* AppModel+Recovery.swift in Sources */,
+				E0DB096D84F96B437DCC3908 /* AppModel+Sharing.swift in Sources */,
+				EEBA5D152E292919B97D92BB /* AppModel+Shell.swift in Sources */,
+				7632121040D8BD3D8623EFE4 /* AppModel+Snapshots.swift in Sources */,
+				8A2EB39104B7AF2D0335D17B /* AppModel+Transfers.swift in Sources */,
+				3F37C45DDABD6DC298F4B7D0 /* AppModel+UploadDestination.swift in Sources */,
+				DF84A66CBC644F6BD2232B8E /* AppModel.swift in Sources */,
+				896848527C8DFFD3E1E65F36 /* AppUpdater.swift in Sources */,
+				B92CB81346FF37A9B8A76E17 /* BackupJobsView.swift in Sources */,
+				545E982E14CBEA22FE03AE33 /* BackupModels.swift in Sources */,
+				808B151F6CD17BFA505FC86D /* BackupsView.swift in Sources */,
+				905A7B13F3E8B895E4DD4140 /* CommandPalette.swift in Sources */,
+				145019AF506F86BAB00A7692 /* ConnectChecks.swift in Sources */,
+				7FDB4CC86DCC9C5EB3F9308C /* ConnectModel.swift in Sources */,
+				40FB9A6F453401D0F9756C2D /* ConnectView.swift in Sources */,
+				536822472C14EE0D6D0F6998 /* Demo.swift in Sources */,
+				14AAF8C36D92E3DCE193E9D6 /* DriveManager.swift in Sources */,
+				760DE04915E7BE2AB71026EC /* EncryptionKeys.swift in Sources */,
+				6A333F86A1222B1F6C0A245B /* EncryptionView.swift in Sources */,
+				6CDB3F3F9AC2A9DB312A4FCC /* FileOutline.swift in Sources */,
+				BBAA44D7EDDED7250AADD012 /* FilesInspector.swift in Sources */,
+				0A8F5088A5D61431177BE520 /* FilesView.swift in Sources */,
+				9A145A2A3480BBECBA426D2A /* MainWindow.swift in Sources */,
+				88B3FE2F2BCA62AABF57D1DD /* MenuBarIcon.swift in Sources */,
+				9FFE929F31C07D7D888FCBE8 /* MenuBarPanelDrop.swift in Sources */,
+				26C2D9521128D8D5C659707A /* MenuBarView.swift in Sources */,
+				56973CECA9F483684DE70B2D /* Models.swift in Sources */,
+				FAE7B8FA37D504EBE7827308 /* MultiProtocolConnectView.swift in Sources */,
+				09E302FF6D649B7993F0A53F /* PalettePanel.swift in Sources */,
+				69C1E503FD2E01A14E272EC1 /* SSHSetupViews.swift in Sources */,
+				B5E691AA335B571CB914974B /* SettingsPrivacy.swift in Sources */,
+				7C16B451ACE9BFB0BE8912EC /* SettingsStorage.swift in Sources */,
+				5E96E7FE9BE4268FBB9E3FA8 /* SettingsView.swift in Sources */,
+				F2E64FA126320F0F2881FEFA /* ShareStorageView.swift in Sources */,
+				6A2FCB1D60F9D3E9BC16BDCE /* SnapshotsView.swift in Sources */,
+				7D788381AEF725C46F3FD821 /* StatusItemController.swift in Sources */,
+				301C10FD11FEA43955E08381 /* StatusKit.swift in Sources */,
+				BAE4EB039EEBD7B7567BCC1E /* Support.swift in Sources */,
+				49793562E8D516C80D4EE1DC /* SyncophantApp.swift in Sources */,
+				585ECE8B028EFDC269E86196 /* Theme.swift in Sources */,
+				67E36EB3DDE268667EBA08D5 /* TimeTravelView.swift in Sources */,
+				6F589BD7A520C4E81C6699CE /* TrashView.swift in Sources */,
+				4D6441300EBF3E7ED4C4614E /* TreeLoader.swift in Sources */,
+				A97DBCE665422A5C88225424 /* UploadDestinationView.swift in Sources */,
+				1CF06D81BE1F8ED532D9EF3B /* CachePolicy.swift in Sources */,
+				1E1169214B395390E511438C /* NetworkContacts.swift in Sources */,
+				51F569DFC7FE95131F2321F3 /* SSHAgentBroker.swift in Sources */,
+				BD80A52D9157B0C3FD75B7A6 /* SSHAgentRendezvous.swift in Sources */,
+				24070ED13E60355E67391932 /* SSHAgentXPCProtocol.swift in Sources */,
+				FEA83CF80EB1021F1B173D7B /* SSHCredentials.swift in Sources */,
+				072E3E32ADDE98A586220161 /* SharedConfig.swift in Sources */,
+				D4F3A2C61EB82571E62A21E4 /* StorageCredentials.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D653F617EFBBDADF85B47128 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B618A99F14D2B60A2205EDEB /* CacheBudget.swift in Sources */,
+				5689346CC3FE33C40C6BBB70 /* ProviderEnumerator.swift in Sources */,
+				64A524E972F675B0F7ED2CEE /* ProviderItem.swift in Sources */,
+				6DEA0105D8E880CE2995F636 /* ProviderJournal.swift in Sources */,
+				8A87CCA783040EF167F101CC /* ProviderRuntime.swift in Sources */,
+				9CB1EFA0A59FE036ABF8AC63 /* SyncophantProvider.swift in Sources */,
+				BF353BF6C6B0EEBE029ED218 /* CachePolicy.swift in Sources */,
+				DA456C7FB78F7A92521DD584 /* NetworkContacts.swift in Sources */,
+				3D99684BEA32C19AA95707A0 /* SSHAgentBroker.swift in Sources */,
+				E203ADA99E7124A10C60CB47 /* SSHAgentRendezvous.swift in Sources */,
+				D3746420473019C479BA4657 /* SSHAgentXPCProtocol.swift in Sources */,
+				50C1EE6F74AFA2F68636EA87 /* SSHCredentials.swift in Sources */,
+				9BC300CE5AC1500C5DE7F499 /* SharedConfig.swift in Sources */,
+				3B1480067ADEAD84073BFC78 /* StorageCredentials.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		08996AD7BD88436693C7D59D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SyncophantAgentRendezvous;
+			target = 8CE8C213A599D69ED11CCFE7 /* SyncophantAgentRendezvous */;
+			targetProxy = C38F6E75244C80B774029CD9 /* PBXContainerItemProxy */;
+		};
+		680D3B80F85632362E5E5332 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SyncophantProvider;
+			target = FCA071153F67F9EDB4490CAC /* SyncophantProvider */;
+			targetProxy = 4F9C9FE0CE5302311361C1BF /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		0AC04785A8A293327AEADDE6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Config/App.entitlements;
+				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = NO;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_DEBUG_DYLIB = NO;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/.deps/include",
+					/opt/homebrew/opt/libssh2/include,
+					/usr/local/opt/libssh2/include,
+				);
+				INFOPLIST_FILE = "Config/App-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @executable_path/../../../../Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/.deps/lib",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-lssh2",
+					"-lcrypto",
+					"-lz",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = app.syncophant.mac;
+				SDKROOT = macosx;
+				SKIP_INSTALL = NO;
+				SWIFT_INCLUDE_PATHS = "$(inherited) $(SRCROOT)/.deps/include /opt/homebrew/opt/libssh2/include /usr/local/opt/libssh2/include";
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		21959508AC7A01049BD3FD7E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Config/App.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_DEBUG_DYLIB = NO;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/.deps/include",
+					/opt/homebrew/opt/libssh2/include,
+					/usr/local/opt/libssh2/include,
+				);
+				INFOPLIST_FILE = "Config/App-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @executable_path/../../../../Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/.deps/lib",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-lssh2",
+					"-lcrypto",
+					"-lz",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = app.syncophant.mac;
+				SDKROOT = macosx;
+				SKIP_INSTALL = NO;
+				SWIFT_INCLUDE_PATHS = "$(inherited) $(SRCROOT)/.deps/include /opt/homebrew/opt/libssh2/include /usr/local/opt/libssh2/include";
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		35DE04FE76EBFCE6DF96CB4D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		3D160AEAC98EBDB851D65803 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				ENABLE_HARDENED_RUNTIME = YES;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				OTHER_CODE_SIGN_FLAGS = "--identifier app.syncophant.mac.agent-rendezvous";
+				PRODUCT_BUNDLE_IDENTIFIER = "app.syncophant.mac.agent-rendezvous";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		5C17C7C400D986EF2806530D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = Config/Provider.entitlements;
+				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = NO;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_DEBUG_DYLIB = NO;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/.deps/include",
+					/opt/homebrew/opt/libssh2/include,
+					/usr/local/opt/libssh2/include,
+				);
+				INFOPLIST_FILE = "Config/Provider-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @executable_path/../../../../Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/.deps/lib",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-lssh2",
+					"-lcrypto",
+					"-lz",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = app.syncophant.mac.provider;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_INCLUDE_PATHS = "$(inherited) $(SRCROOT)/.deps/include /opt/homebrew/opt/libssh2/include /usr/local/opt/libssh2/include";
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		7736B995C3FCABFF0A747ACF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = Config/Provider.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_DEBUG_DYLIB = NO;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/.deps/include",
+					/opt/homebrew/opt/libssh2/include,
+					/usr/local/opt/libssh2/include,
+				);
+				INFOPLIST_FILE = "Config/Provider-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @executable_path/../../../../Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/.deps/lib",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-lssh2",
+					"-lcrypto",
+					"-lz",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = app.syncophant.mac.provider;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_INCLUDE_PATHS = "$(inherited) $(SRCROOT)/.deps/include /opt/homebrew/opt/libssh2/include /usr/local/opt/libssh2/include";
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		7A112C3443804522254E1C49 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = NO;
+				CODE_SIGN_STYLE = Automatic;
+				ENABLE_HARDENED_RUNTIME = YES;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				OTHER_CODE_SIGN_FLAGS = "--identifier app.syncophant.mac.agent-rendezvous";
+				PRODUCT_BUNDLE_IDENTIFIER = "app.syncophant.mac.agent-rendezvous";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		83276C7D57481C7192C92BD7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		83DD6E38CB317EA01FB726E8 /* Build configuration list for PBXNativeTarget "SyncophantAgentRendezvous" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7A112C3443804522254E1C49 /* Release */,
+				3D160AEAC98EBDB851D65803 /* Debug */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8CF3CCB54DC31E1979A8223E /* Build configuration list for PBXNativeTarget "Syncophant" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0AC04785A8A293327AEADDE6 /* Release */,
+				21959508AC7A01049BD3FD7E /* Debug */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8E51B335DC305241D4DF953C /* Build configuration list for PBXNativeTarget "SyncophantProvider" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5C17C7C400D986EF2806530D /* Release */,
+				7736B995C3FCABFF0A747ACF /* Debug */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B3D569FD3320814FED31388F /* Build configuration list for PBXProject "Syncophant" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				35DE04FE76EBFCE6DF96CB4D /* Debug */,
+				83276C7D57481C7192C92BD7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		CCAD415610DD43DE42FEDB65 /* XCLocalSwiftPackageReference "." */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = .;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		0B3386E46A57C498C1B254FA /* XCRemoteSwiftPackageReference "Sparkle" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sparkle-project/Sparkle";
+			requirement = {
+				kind = exactVersion;
+				version = 2.10.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		10EE08BDDDA2C24A4A76E2FD /* CoreKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CCAD415610DD43DE42FEDB65 /* XCLocalSwiftPackageReference "." */;
+			productName = CoreKit;
+		};
+		2E41594F9CBAE4152D1955A8 /* HetznerKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CCAD415610DD43DE42FEDB65 /* XCLocalSwiftPackageReference "." */;
+			productName = HetznerKit;
+		};
+		EE3393C2FA16AE0A0B43EA15 /* CoreKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CCAD415610DD43DE42FEDB65 /* XCLocalSwiftPackageReference "." */;
+			productName = CoreKit;
+		};
+		F8CBAFDBC1937336CE80553A /* Sparkle */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0B3386E46A57C498C1B254FA /* XCRemoteSwiftPackageReference "Sparkle" */;
+			productName = Sparkle;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = A16B96703C58C10C1B010EFA /* Project object */;
+}

@@ -1,0 +1,105 @@
+{
+  "name": "Syncophant",
+  "source": "DESIGN.md",
+  "platformNote": "Native macOS 26 app (SwiftUI and AppKit). The documenter schema has no macOS value; this file does not claim web or iOS.",
+  "mode": "Operate",
+  "colors": {
+    "accent": {
+      "light": "#0A6CDB",
+      "dark": "#4DA3FF",
+      "role": "Only brand hue. Tint, selection, folders, upload activity, kept on this Mac."
+    },
+    "navy": {
+      "light": "#0B2A5B",
+      "dark": "#BFD7FF",
+      "role": "Connect sheet titles and menu bar mark. Never a surface fill."
+    },
+    "verified": {
+      "light": "#1A7F45",
+      "dark": "#4CD07D",
+      "role": "Only for On your box \u00b7 verified, earned by an engine receipt."
+    },
+    "caution": {
+      "light": "#B45309",
+      "dark": "#F0A24A",
+      "role": "Conflict copies, unverified uploads, demo banner."
+    },
+    "failure": {
+      "light": "#B42318",
+      "dark": "#FF7A70",
+      "role": "Failed uploads, host key changed, unreachable storage."
+    },
+    "sky": {
+      "light": "#7FB6FF",
+      "dark": "#1F4FA8",
+      "role": "Environment light behind glass, top-left. Never text or status."
+    },
+    "lavender": {
+      "light": "#C3B4FF",
+      "dark": "#4B3A99",
+      "role": "Environment light behind glass, top-right."
+    },
+    "ember": {
+      "light": "#FFD2A8",
+      "dark": "#6B3A1F",
+      "role": "Environment light behind glass, bottom-left."
+    }
+  },
+  "typography": {
+    "family": "SF Pro (system)",
+    "body": {
+      "size": 13,
+      "weight": 400,
+      "lineHeight": 1.3
+    },
+    "heading": {
+      "size": 17,
+      "weight": 600
+    },
+    "caption": {
+      "size": 11,
+      "weight": 400
+    },
+    "monospaced": "Hosts, fingerprints, paths and Size column digits"
+  },
+  "rounded": {
+    "tile": 8,
+    "row": 9,
+    "card": 18,
+    "canvas": 22
+  },
+  "spacing": {
+    "xs": 4,
+    "sm": 8,
+    "md": 12,
+    "lg": 20,
+    "xl": 32
+  },
+  "components": [
+    "File row (NSOutlineView 34 pt rows: Name, Size, Modified, Status; rounded accent selection pill, hover wash)",
+    "Status pill (symbol plus text, tinted wash, never colour alone)",
+    "Storage row and floating storage summary card (real values only)",
+    "Transfer row (determinate from engine bytes; speed and ETA only when sampled)",
+    "Issue row (plain cause, one fix button)",
+    "Floating glass notice capsule and in-canvas strips (demo, refresh, search scope)",
+    "Welcome glass card",
+    "Menu bar glass cards",
+    "Connect option row (12 pt fill, 1.5 pt accent ring when selected)",
+    "Host key trust card (explicit Trust this key)"
+  ],
+  "icon": {
+    "files": [
+      "Assets/AppIcon.svg",
+      "Assets/AppIcon-1024.png",
+      "Assets/AppIcon.icns"
+    ],
+    "description": "Original white elephant head and trunk on a blue tile (#4DA3FF to #0A5FDB); the ears are two open rings that read as a two-sided sync loop and as storage discs."
+  },
+  "materials": {
+    "glass": "SwiftUI glassEffect(.regular) in continuous rounded shapes, GlassEffectContainer for groups, .glass and .glassProminent button styles; system glass for sidebar, toolbar and search.",
+    "canvas": "Opaque textBackgroundColor reading surface, 22 pt radius, 0.5 pt separator, shadow 0.10 black 14 pt blur 5 pt y.",
+    "environment": "AmbientBackdrop: three radial washes (sky, lavender, ember) over windowBackgroundColor.",
+    "fallback": "Reduce Transparency: no colour field, glass replaced by controlBackgroundColor fill with 1 pt separator."
+  },
+  "supersedes": "Earlier rule 'no gradients, no decorative glass' replaced by explicit user request for real Liquid Glass; glass limited to floating surfaces."
+}

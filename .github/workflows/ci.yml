@@ -1,0 +1,30 @@
+name: Build and test
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  macos:
+    runs-on: macos-26
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: scripts/crypt-helper/go.mod
+      - name: Install build tools
+        run: brew install cmake pkg-config ruby
+      - name: Install project generator
+        run: gem install xcodeproj --no-document
+      - name: Bootstrap pinned SSH library
+        run: bash scripts/bootstrap.sh
+      - name: Build pinned encryption helper
+        run: bash scripts/build-crypt-helper.sh
+      - name: Test
+        run: bash scripts/test.sh
+      - name: Build app and File Provider
+        run: bash scripts/build.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Syncophant-unsigned
+          path: build/DerivedData/Build/Products/Debug/Syncophant.app

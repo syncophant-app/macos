@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0"><dict>
+<key>CFBundleName</key><string>Syncophant File Provider</string>
+<key>CFBundleDisplayName</key><string>Syncophant</string>
+<key>CFBundleIdentifier</key><string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+<key>CFBundleExecutable</key><string>$(EXECUTABLE_NAME)</string>
+<key>CFBundlePackageType</key><string>XPC!</string>
+<key>CFBundleShortVersionString</key><string>0.1.0</string>
+<key>CFBundleVersion</key><string>1</string>
+<key>LSMinimumSystemVersion</key><string>26.0</string>
+<key>SyncophantKeychainAccessGroup</key><string>$(AppIdentifierPrefix)app.syncophant.mac.shared</string>
+<key>NSExtension</key><dict>
+<key>NSExtensionPointIdentifier</key><string>com.apple.fileprovider-nonui</string>
+<key>NSExtensionPrincipalClass</key><string>$(PRODUCT_MODULE_NAME).SyncophantProvider</string>
+<key>NSExtensionFileProviderSupportsEnumeration</key><true/>
+<key>NSExtensionFileProviderDocumentGroup</key><string>group.app.syncophant.mac</string>
+<key>NSExtensionFileProviderDownloadPipelineDepth</key><integer>2</integer>
+<key>NSExtensionFileProviderUploadPipelineDepth</key><integer>2</integer>
+<key>NSExtensionFileProviderAllowsUserControlledEviction</key><true/>
+<key>NSFileProviderDecorations</key><array>
+<dict><key>Identifier</key><string>app.syncophant.mac.provider.failed</string><key>BadgeImageType</key><string>com.apple.icon-decoration.badge.warning</string><key>Category</key><string>Badge</string><key>Label</key><string>Upload stopped</string></dict>
+<dict><key>Identifier</key><string>app.syncophant.mac.provider.two-versions</string><key>BadgeImageType</key><string>com.apple.icon-decoration.badge.in-review</string><key>Category</key><string>Badge</string><key>Label</key><string>Two versions</string></dict>
+<dict><key>Identifier</key><string>app.syncophant.mac.provider.kept</string><key>BadgeImageType</key><string>com.apple.icon-decoration.badge.pinned</string><key>Category</key><string>Badge</string><key>Label</key><string>Kept downloaded</string></dict>
+</array>
+<key>NSExtensionFileProviderActions</key><array>
+<dict><key>NSExtensionFileProviderActionIdentifier</key><string>app.syncophant.keep</string><key>NSExtensionFileProviderActionName</key><string>Keep Downloaded</string><key>NSExtensionFileProviderActionActivationRule</key><string>SUBQUERY(fileproviderItems, $fileproviderItem, $fileproviderItem.userInfo.kept == NO AND $fileproviderItem.userInfo.state == "synced").@count &gt; 0</string></dict>
+<dict><key>NSExtensionFileProviderActionIdentifier</key><string>app.syncophant.unkeep</string><key>NSExtensionFileProviderActionName</key><string>Stop Keeping Downloaded</string><key>NSExtensionFileProviderActionActivationRule</key><string>SUBQUERY(fileproviderItems, $fileproviderItem, $fileproviderItem.userInfo.kept == YES).@count &gt; 0</string></dict>
+<dict><key>NSExtensionFileProviderActionIdentifier</key><string>app.syncophant.retry</string><key>NSExtensionFileProviderActionName</key><string>Retry Upload</string><key>NSExtensionFileProviderActionActivationRule</key><string>fileproviderItems.@count &gt; 0 AND SUBQUERY(fileproviderItems, $fileproviderItem, $fileproviderItem.userInfo.state != "failed").@count == 0</string></dict>
+<dict><key>NSExtensionFileProviderActionIdentifier</key><string>app.syncophant.why</string><key>NSExtensionFileProviderActionName</key><string>Why Did It Stop?</string><key>NSExtensionFileProviderActionActivationRule</key><string>fileproviderItems.@count == 1 AND SUBQUERY(fileproviderItems, $fileproviderItem, $fileproviderItem.userInfo.state == "failed").@count == 1</string></dict>
+<dict><key>NSExtensionFileProviderActionIdentifier</key><string>app.syncophant.compare</string><key>NSExtensionFileProviderActionName</key><string>Compare Versions…</string><key>NSExtensionFileProviderActionActivationRule</key><string>fileproviderItems.@count == 1 AND SUBQUERY(fileproviderItems, $fileproviderItem, $fileproviderItem.userInfo.state == "conflict").@count == 1</string></dict>
+<dict><key>NSExtensionFileProviderActionIdentifier</key><string>app.syncophant.share</string><key>NSExtensionFileProviderActionName</key><string>Share…</string><key>NSExtensionFileProviderActionActivationRule</key><string>fileproviderItems.@count == 1 AND SUBQUERY(fileproviderItems, $fileproviderItem, $fileproviderItem.userInfo.canShare == YES).@count == 1</string></dict>
+<dict><key>NSExtensionFileProviderActionIdentifier</key><string>app.syncophant.versions</string><key>NSExtensionFileProviderActionName</key><string>Browse Versions…</string><key>NSExtensionFileProviderActionActivationRule</key><string>fileproviderItems.@count == 1 AND SUBQUERY(fileproviderItems, $fileproviderItem, $fileproviderItem.userInfo.hasVersions == YES).@count == 1</string></dict>
+<dict><key>NSExtensionFileProviderActionIdentifier</key><string>app.syncophant.copy-path</string><key>NSExtensionFileProviderActionName</key><string>Copy Path</string><key>NSExtensionFileProviderActionActivationRule</key><string>fileproviderItems.@count &gt; 0</string></dict>
+<dict><key>NSExtensionFileProviderActionIdentifier</key><string>app.syncophant.terminal</string><key>NSExtensionFileProviderActionName</key><string>Open in Terminal</string><key>NSExtensionFileProviderActionActivationRule</key><string>fileproviderItems.@count &gt; 0</string></dict>
+<dict><key>NSExtensionFileProviderActionIdentifier</key><string>app.syncophant.refresh</string><key>NSExtensionFileProviderActionName</key><string>Refresh from Storage</string><key>NSExtensionFileProviderActionActivationRule</key><string>fileproviderItems.@count &gt; 0</string></dict>
+</array>
+</dict>
+</dict></plist>
