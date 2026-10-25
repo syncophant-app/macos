@@ -18,7 +18,8 @@ final class AppUpdater: NSObject, SPUUpdaterDelegate {
         guard Bundle.main.bundleURL.pathExtension == "app" else { throw AppError.needsBundle }
         let updater = controller.updater
         updater.sendsSystemProfile = false
-        updater.automaticallyDownloadsUpdates = false
+        // Opting in means hands-off: signed updates download quietly and install on quit.
+        updater.automaticallyDownloadsUpdates = enabled
         if updater.automaticallyChecksForUpdates != enabled { updater.automaticallyChecksForUpdates = enabled }
         updater.updateCheckInterval = 86_400
         if !started { controller.startUpdater(); started = true }

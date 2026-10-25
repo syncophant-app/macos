@@ -18,7 +18,7 @@ Make remote storage feel local, with honest file status and checksum-verified at
 The supplied product plan is the implementation brief. The first release targets Hetzner and generic SFTP; WebDAV, S3, encryption, scheduled jobs, mobile companions and FSKit belong to later releases. Never describe an unverified upload as safe. Preserve both sides of conflicts. Host key trust must be explicit. Credentials belong in Keychain, never settings or logs.
 
 ## Brand Commitments
-Name: Syncophant. Bundle ID: app.syncophant.mac. Website: https://syncophant.app. Repository: https://github.com/syncophant/macos. Free, no accounts, paywalls, telemetry, crash uploads or project-owned servers. Update checks off by default. App GPL-3.0-or-later; reusable libraries MIT.
+Name: Syncophant. Bundle ID: app.syncophant.mac. Website: https://syncophant.app. Repository: https://github.com/syncophant-app/macos. Free, no accounts, paywalls, telemetry, crash uploads or project-owned servers. Update checks off by default. App GPL-3.0-or-later; reusable libraries MIT.
 
 ## Evidence on Hand
 User-supplied BYO-Storage Mac Drive Product Plan and Storage Drive Mocks HTML (five screens: menu bar, connect, browser, settings/privacy, snapshots). Performance figures in the plan are targets requiring real hardware and storage measurements, not established results.

@@ -56,29 +56,14 @@ struct SSHHost: Identifiable, Hashable {
     }
 }
 
-// MARK: - Opt-in update check (plain HTTPS request, nothing sent about the user)
+// MARK: - Version (updates themselves are Sparkle's job, see AppUpdater)
 
-enum UpdateChecker {
-    static let endpoint = URL(string: "https://api.github.com/repos/syncophant/macos/releases/latest")!
-    static var currentVersion: String {
-        Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "development build"
-    }
-
-    enum Result: Equatable { case upToDate(String), available(String, URL), noRelease }
-
-    static func check() async throws -> Result {
-        var request = URLRequest(url: endpoint, timeoutInterval: 15)
-        request.setValue("application/vnd.github+json", forHTTPHeaderField: "Accept")
-        request.setValue("Syncophant/\(currentVersion)", forHTTPHeaderField: "User-Agent")
-        let (data, response) = try await URLSession(configuration: .ephemeral).data(for: request)
-        guard let http = response as? HTTPURLResponse else { throw URLError(.badServerResponse) }
-        if http.statusCode == 404 { return .noRelease }
-        guard http.statusCode == 200 else { throw AppError.unavailable("GitHub answered HTTP \(http.statusCode).") }
-        struct Release: Decodable { let tag_name: String; let html_url: URL }
-        let release = try JSONDecoder().decode(Release.self, from: data)
-        let latest = release.tag_name.trimmingCharacters(in: CharacterSet(charactersIn: "vV"))
-        return latest.compare(currentVersion, options: .numeric) == .orderedDescending
-            ? .available(release.tag_name, release.html_url) : .upToDate(release.tag_name)
+enum AppVersion {
+    /// "0.2.0 (57)": marketing version from the release tag, build number from the release run.
+    static var current: String {
+        let info = Bundle.main.infoDictionary ?? [:]
+        guard let version = info["CFBundleShortVersionString"] as? String else { return "development build" }
+        return (info["CFBundleVersion"] as? String).map { "\(version) (\($0))" } ?? version
     }
 }
 
@@ -96,7 +81,7 @@ struct DiagnosticsLog {
         var text = lines.joined(separator: "\n")
         for (i, h) in Set(hosts).filter({ !$0.isEmpty }).enumerated() { text = text.replacingOccurrences(of: h, with: "<host-\(i + 1)>") }
         for (i, u) in Set(users).filter({ !$0.isEmpty }).enumerated() { text = text.replacingOccurrences(of: u, with: "<user-\(i + 1)>") }
-        let header = "Syncophant \(UpdateChecker.currentVersion) · macOS \(ProcessInfo.processInfo.operatingSystemVersionString)\n"
+        let header = "Syncophant \(AppVersion.current) · macOS \(ProcessInfo.processInfo.operatingSystemVersionString)\n"
         return header + text + "\n"
     }
 }

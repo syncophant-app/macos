@@ -367,7 +367,7 @@ private struct TransferSettings: View {
 private struct AboutSettings: View {
     @Environment(AppModel.self) private var app
     @Environment(\.openURL) private var openURL
-    private static let repo = URL(string: "https://github.com/syncophant/macos")!
+    private static let repo = URL(string: "https://github.com/syncophant-app/macos")!
     private static let licences: [(String, String)] = [
         ("libssh2", "BSD-3-Clause"),
         ("OpenSSL 3", "Apache-2.0"),
@@ -384,7 +384,7 @@ private struct AboutSettings: View {
                 .accessibilityHidden(true)
             VStack(spacing: 4) {
                 Text("Syncophant").font(.system(size: 24, weight: .bold)).tracking(-0.4)
-                Text("Version \(UpdateChecker.currentVersion) · Free and open source, GPL-3.0-or-later")
+                Text("Version \(AppVersion.current) · Free and open source, GPL-3.0-or-later")
                     .font(.system(size: 12.5)).foregroundStyle(.secondary)
             }
             GlassEffectContainer(spacing: 8) {
@@ -399,7 +399,7 @@ private struct AboutSettings: View {
             if let status = app.updateStatus {
                 Text(status).font(.system(size: 11.5)).foregroundStyle(.secondary).transition(.opacity)
             }
-            Text("Runs only when you click it, unless daily checks are on in Privacy.")
+            Text("Runs only when you click it, unless automatic updates are on in Privacy.")
                 .font(.system(size: 11)).foregroundStyle(.tertiary)
 
             SettingsGroup {

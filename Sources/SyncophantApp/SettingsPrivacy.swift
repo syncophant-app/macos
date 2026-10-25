@@ -37,8 +37,8 @@ struct PrivacySettings: View {
         }
 
         SettingsGroup {
-            SettingsToggle(title: "Check GitHub for updates",
-                           detail: "Once a day. Sends only the request itself. Off until you turn it on.",
+            SettingsToggle(title: "Update automatically from GitHub",
+                           detail: "Checks once a day and installs signed updates when you quit. Sends only the request itself. Off until you turn it on.",
                            isOn: Binding(get: { app.settings.updateChecks }, set: { app.setUpdateChecks($0) }))
                 .disabled(app.isDemo)
             SettingsRow(title: "Hetzner API token",

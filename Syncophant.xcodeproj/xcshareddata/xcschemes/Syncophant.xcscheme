@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D3BF5B6E826331F270556F60"
+               BlueprintIdentifier = "19CE60C7F5D62D7CE87020C0"
                BuildableName = "Syncophant.app"
                BlueprintName = "Syncophant"
                ReferencedContainer = "container:Syncophant.xcodeproj">
@@ -30,7 +30,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D3BF5B6E826331F270556F60"
+            BlueprintIdentifier = "19CE60C7F5D62D7CE87020C0"
             BuildableName = "Syncophant.app"
             BlueprintName = "Syncophant"
             ReferencedContainer = "container:Syncophant.xcodeproj">
@@ -53,7 +53,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D3BF5B6E826331F270556F60"
+            BlueprintIdentifier = "19CE60C7F5D62D7CE87020C0"
             BuildableName = "Syncophant.app"
             BlueprintName = "Syncophant"
             ReferencedContainer = "container:Syncophant.xcodeproj">
@@ -70,7 +70,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D3BF5B6E826331F270556F60"
+            BlueprintIdentifier = "19CE60C7F5D62D7CE87020C0"
             BuildableName = "Syncophant.app"
             BlueprintName = "Syncophant"
             ReferencedContainer = "container:Syncophant.xcodeproj">

@@ -574,7 +574,7 @@ private struct PanelFooter: View {
                 Button("Settings…") { app.openSettingsFromPanel() }
                 Button("Syncophant Help") {
                     app.panelUI.close()
-                    if let url = URL(string: "https://github.com/syncophant/macos") { NSWorkspace.shared.open(url) }
+                    if let url = URL(string: "https://github.com/syncophant-app/macos") { NSWorkspace.shared.open(url) }
                 }
                 Divider()
                 Button("Quit Syncophant") { NSApp.terminate(nil) }

@@ -6,7 +6,7 @@ A native Mac app for your own storage. Connect Hetzner, SFTP, WebDAV, S3-compati
 
 - App ID: `app.syncophant.mac`
 - Website: <https://syncophant.app>
-- Repository: <https://github.com/syncophant/macos>
+- Repository: <https://github.com/syncophant-app/macos>
 - App: GPL-3.0-or-later. Reusable CoreKit and HetznerKit: MIT.
 
 ## Build and run
