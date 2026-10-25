@@ -49,7 +49,7 @@ ditto -c -k --sequesterRsrc --keepParent "$app" "$archive"
 shasum -a 256 "$archive" "$dmg" > "$base.sha256"
 sources="build/Syncophant-$version-source.tar.gz"
 tar --exclude='.DS_Store' --exclude='.git' -czf "$sources" \
-  Package.swift Package.resolved Sources Tests scripts Config Assets LICENSE README.md DESIGN.md docs .github
+  Package.swift Package.resolved Sources Tests scripts Config Assets LICENSE README.md DESIGN.md docs .github .circleci
 third_party="build/AMSMB2-4.0.3-source.tar.gz"
 [[ -f .build/checkouts/AMSMB2/Dependencies/libsmb2/lib/libsmb2.c ]] || swift package resolve
 test -f .build/checkouts/AMSMB2/Dependencies/libsmb2/lib/libsmb2.c
