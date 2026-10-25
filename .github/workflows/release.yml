@@ -1,0 +1,64 @@
+name: Release
+# Pushing a v* tag (or publishing a release with a new tag in the GitHub UI)
+# builds, signs and notarizes the app, then attaches it to that tag's release.
+on:
+  push:
+    tags: ['v*']
+permissions:
+  contents: write
+concurrency:
+  group: release-${{ github.ref }}
+jobs:
+  release:
+    runs-on: macos-26
+    env:
+      SYNCOPHANT_TEAM_ID: 654ASRW868
+      SYNCOPHANT_DISTRIBUTION: 1
+      SYNCOPHANT_NOTARY_PROFILE: syncophant-notary
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: scripts/crypt-helper/go.mod
+      - name: Install build tools
+        run: |
+          brew install cmake pkg-config ruby
+          gem install xcodeproj --no-document
+      - name: Install signing certificate, profiles and notary credentials
+        env:
+          DEVELOPER_ID_P12: ${{ secrets.DEVELOPER_ID_P12 }}
+          DEVELOPER_ID_P12_PASSWORD: ${{ secrets.DEVELOPER_ID_P12_PASSWORD }}
+          APP_PROFILE: ${{ secrets.APP_PROVISIONING_PROFILE }}
+          PROVIDER_PROFILE: ${{ secrets.PROVIDER_PROVISIONING_PROFILE }}
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_APP_PASSWORD: ${{ secrets.APPLE_APP_PASSWORD }}
+        run: |
+          keychain="$RUNNER_TEMP/signing.keychain-db"
+          password=$(uuidgen)
+          security create-keychain -p "$password" "$keychain"
+          security set-keychain-settings -lut 21600 "$keychain"
+          security unlock-keychain -p "$password" "$keychain"
+          echo "$DEVELOPER_ID_P12" | base64 --decode > "$RUNNER_TEMP/developer-id.p12"
+          security import "$RUNNER_TEMP/developer-id.p12" -k "$keychain" -P "$DEVELOPER_ID_P12_PASSWORD" -T /usr/bin/codesign -T /usr/bin/security
+          rm "$RUNNER_TEMP/developer-id.p12"
+          security set-key-partition-list -S apple-tool:,apple: -k "$password" "$keychain" > /dev/null
+          security list-keychains -d user -s "$keychain" $(security list-keychains -d user | tr -d '"')
+          security default-keychain -s "$keychain"
+          profiles="$HOME/Library/Developer/Xcode/UserData/Provisioning Profiles"
+          mkdir -p "$profiles"
+          echo "$APP_PROFILE" | base64 --decode > "$profiles/app.provisionprofile"
+          echo "$PROVIDER_PROFILE" | base64 --decode > "$profiles/provider.provisionprofile"
+          xcrun notarytool store-credentials "$SYNCOPHANT_NOTARY_PROFILE" \
+            --apple-id "$APPLE_ID" --password "$APPLE_APP_PASSWORD" --team-id "$SYNCOPHANT_TEAM_ID"
+      - name: Build, sign and notarize
+        run: SYNCOPHANT_VERSION="${GITHUB_REF_NAME#v}" SYNCOPHANT_BUILD="$GITHUB_RUN_NUMBER" bash scripts/package.sh
+      - name: Attach to release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # Stable name so the website can link to releases/latest/download/Syncophant.dmg.
+          cp build/Syncophant-*.dmg build/Syncophant.dmg
+          gh release view "$GITHUB_REF_NAME" > /dev/null 2>&1 ||
+            gh release create "$GITHUB_REF_NAME" --verify-tag --title "$GITHUB_REF_NAME" --generate-notes
+          gh release upload "$GITHUB_REF_NAME" --clobber \
+            build/Syncophant.dmg build/Syncophant-*.zip build/*.sha256 build/*.tar.gz

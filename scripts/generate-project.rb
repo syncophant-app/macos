@@ -90,6 +90,9 @@ end
     end
     settings['SWIFT_VERSION'] = target == app ? '6.0' : '5.0'
     settings['MACOSX_DEPLOYMENT_TARGET'] = '26.0'
+    # Release builds override both from the tag (scripts/build.sh).
+    settings['MARKETING_VERSION'] = '0.1.0'
+    settings['CURRENT_PROJECT_VERSION'] = '1'
     settings['ENABLE_HARDENED_RUNTIME'] = 'YES'
     settings['CODE_SIGN_INJECT_BASE_ENTITLEMENTS'] = 'NO' if build.name == 'Release'
     settings['ENABLE_DEBUG_DYLIB'] = 'NO'

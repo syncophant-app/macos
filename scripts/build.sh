@@ -15,8 +15,11 @@ signing_args=(CODE_SIGNING_ALLOWED=NO)
 if [[ -n "${SYNCOPHANT_TEAM_ID:-}" ]]; then
   signing_args=("DEVELOPMENT_TEAM=$SYNCOPHANT_TEAM_ID")
 fi
+version_args=()
+[[ -z "${SYNCOPHANT_VERSION:-}" ]] || version_args+=("MARKETING_VERSION=$SYNCOPHANT_VERSION")
+[[ -z "${SYNCOPHANT_BUILD:-}" ]] || version_args+=("CURRENT_PROJECT_VERSION=$SYNCOPHANT_BUILD")
 xcodebuild -project Syncophant.xcodeproj -scheme Syncophant -configuration "${CONFIGURATION:-Debug}" \
-  -derivedDataPath "$build_root" "ARCHS=$(uname -m)" ONLY_ACTIVE_ARCH=YES "${signing_args[@]}" build
+  -derivedDataPath "$build_root" "ARCHS=$(uname -m)" ONLY_ACTIVE_ARCH=YES "${signing_args[@]}" ${version_args[@]+"${version_args[@]}"} build
 app="$build_root/Build/Products/${CONFIGURATION:-Debug}/Syncophant.app"
 if [[ -n "${SYNCOPHANT_TEAM_ID:-}" ]]; then
   SYNCOPHANT_SIGNING_IDENTITY="$signing_identity" bash scripts/sign.sh "$app"

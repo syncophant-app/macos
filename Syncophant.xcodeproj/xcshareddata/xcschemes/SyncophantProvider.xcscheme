@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "FCA071153F67F9EDB4490CAC"
+               BlueprintIdentifier = "F83B4C31551679EA9573D10F"
                BuildableName = "SyncophantProvider.appex"
                BlueprintName = "SyncophantProvider"
                ReferencedContainer = "container:Syncophant.xcodeproj">
