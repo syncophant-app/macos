@@ -12,7 +12,7 @@
 <key>LSMinimumSystemVersion</key><string>26.0</string>
 <key>LSApplicationCategoryType</key><string>public.app-category.utilities</string>
 <key>SUFeedURL</key><string>https://github.com/syncophant-app/macos/releases/latest/download/appcast.xml</string>
-<key>SUPublicEDKey</key><string>W5sS8Baye/kb7BefhNzft6u2hCdV+frrNWuvBYwVWlQ=</string>
+<key>SUPublicEDKey</key><string>wW04k/ItYlktB8cXhrs3ZGSKE5nEjmii3HPu5fBoSng=</string>
 <key>SUEnableAutomaticChecks</key><false/>
 <key>SUAutomaticallyUpdate</key><false/>
 <key>SUEnableSystemProfiling</key><false/>
