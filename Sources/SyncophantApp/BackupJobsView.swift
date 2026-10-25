@@ -630,10 +630,13 @@ private struct KindBar: View {
         let total = max(1, shown.reduce(Int64(0)) { $0 + (kinds[$1]?.bytes ?? 0) })
         VStack(alignment: .leading, spacing: 8) {
             GeometryReader { g in
+                let availableWidth: CGFloat = g.size.width - CGFloat(shown.count - 1) * 2
                 HStack(spacing: 2) {
                     ForEach(shown) { kind in
-                        Capsule().fill(kind == .other ? Fill.three : kind.tone.color)
-                            .frame(width: max(4, (g.size.width - CGFloat(shown.count - 1) * 2) * CGFloat(kinds[kind]!.bytes) / CGFloat(total)))
+                        let color: Color = kind == .other ? Fill.three : kind.tone.color
+                        let width: CGFloat = max(4, availableWidth * CGFloat(kinds[kind]!.bytes) / CGFloat(total))
+                        Capsule().fill(color)
+                            .frame(width: width)
                     }
                 }
             }
