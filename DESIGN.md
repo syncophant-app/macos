@@ -37,7 +37,7 @@ Mode: Operate. Light and Dark follow the system; the accent follows the person's
 
 ## App Icon
 
-The icon is an original mark, not an SF Symbol: a white elephant head and trunk on a macOS-grid blue tile (`#4DA3FF` to `#0A5FDB`). The two ears are open rings that read at once as a two-sided sync loop and as storage discs. The trunk ends in a curl so the animal survives at 32 px. It uses the single accent hue, carries no text, and is the one place the app uses a gradient and a drop shadow. Source and export steps are in `Assets/README.md`.
+The icon is the brand mark, not an SF Symbol: the white elephant head whose ear gaps are cut as one clockwise sync loop (up arrow on the left, down arrow on the right), on a Syncophant Blue glass tile (`#4DA3FF` to `#0A5FDB`) with a thin light rim and a soft top sheen. The 16 and 32 px sizes use the small cut, whose wider gaps survive. It carries no text and is the one place the mark is blue or sits on a gradient. Source and export steps are in `Assets/README.md`.
 
 
 ## Colors

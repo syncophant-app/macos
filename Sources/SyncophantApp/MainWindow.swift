@@ -17,7 +17,6 @@ struct MainWindow: View {
                 .navigationTitle(app.windowTitle)
                 .navigationSubtitle(app.windowSubtitle)
         }
-        .background(Color(nsColor: .windowBackgroundColor))
         .overlay(alignment: .bottom) {
             if let n = app.notice {
                 Toast(notice: n)

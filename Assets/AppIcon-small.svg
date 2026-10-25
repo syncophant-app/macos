@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024"><title>Syncophant</title>
+<defs>
+<linearGradient id="t" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4DA3FF"></stop><stop offset="1" stop-color="#0A5FDB"></stop></linearGradient>
+<linearGradient id="m" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"></stop><stop offset="1" stop-color="#DCEBFF"></stop></linearGradient>
+<linearGradient id="r" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity="0.55"></stop><stop offset=".5" stop-color="#fff" stop-opacity="0.1"></stop><stop offset="1" stop-color="#fff" stop-opacity="0.248"></stop></linearGradient>
+<radialGradient id="h" cx=".3" cy="0" r=".85"><stop offset="0" stop-color="#fff" stop-opacity="0.22"></stop><stop offset="1" stop-color="#fff" stop-opacity="0"></stop></radialGradient>
+<filter id="ts" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="14" stdDeviation="14" flood-color="#000" flood-opacity=".28"></feDropShadow></filter>
+<filter id="ms" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="10" stdDeviation="10" flood-color="#06307A" flood-opacity="0.35"></feDropShadow></filter>
+<clipPath id="c"><rect x="100" y="100" width="824" height="824" rx="185"></rect></clipPath>
+</defs>
+<rect x="100" y="100" width="824" height="824" rx="185" fill="url(#t)" filter="url(#ts)"></rect>
+<rect x="100" y="100" width="824" height="824" rx="185" fill="url(#h)"></rect>
+<g filter="url(#ms)"><path transform="translate(79.93 86.95) scale(0.84388)" fill="url(#m)" d="M656.9 563.5C652 558.7 646.5 553.3 640.8 547.4C608.5 577.4 568.1 567 568.1 648.5C568.1 676.4 577.9 705.3 610.9 705.3C656.9 705.3 621.2 659.8 665.9 659.8C689.6 659.8 704.2 668 704.2 693.5C704.2 710.6 699.7 724.4 690.6 738.5C668.1 773.3 625.1 779 586.9 779C569.7 779 554.5 778.4 537.9 773.8C471.8 755.4 446.8 687.3 441.3 625.5C438.7 610.3 438.6 597.2 430.1 583.5C422.6 571.4 409.2 566 397.9 558.8C370.5 541.4 353.2 509.1 353.2 476.9L353.2 392.3L385.2 392.3L360 354.4L329.2 308.3L273.2 392.3L305.2 392.3L305.2 476.9C305.2 514.9 320 550.8 345.6 577.6C332.4 582.6 318.1 582.8 301.9 582.8C235.1 582.8 177.3 531.4 160.6 468.5C156.4 452.7 156.5 428.7 156.5 410.4C156.5 408.3 156.5 406.4 156.5 404.5C156.5 403 156.5 401.5 156.5 400C156.5 380.4 156.5 357.8 161.7 339.5C177.6 283.6 228.5 256.8 283.9 256.8C312.2 256.8 339 266.6 360 285.5C367.9 292.6 377.3 302 387.4 313C407 294.6 433.3 283.3 462.2 283.3L561.8 283.3C622 283.3 670.8 332.1 670.8 392.3L670.8 476.9L638.8 476.9L663.4 513.8L694.8 560.9L750.8 476.9L718.8 476.9L718.8 392.3C718.8 349.3 701.2 308.8 671.1 279.6C690.9 264.5 714.9 256.8 740.1 256.8C795.5 256.8 846.4 283.6 862.3 339.5C867.5 357.8 867.5 380.4 867.5 400C867.5 401.5 867.5 403 867.5 404.5C867.5 406.4 867.5 408.3 867.5 410.4C867.5 428.7 867.6 452.7 863.4 468.5C846.7 531.4 788.9 582.8 722.1 582.8C696.7 582.8 676.2 582.4 656.9 563.5Z"></path></g>
+<rect x="102" y="102" width="820" height="820" rx="183" fill="none" stroke="url(#r)" stroke-width="4" clip-path="url(#c)"></rect>
+</svg>

@@ -2,7 +2,8 @@
 
 | File | Purpose |
 | --- | --- |
-| `AppIcon.svg` | Hand-authored vector source (1024×1024). Edit this, then re-export. |
+| `AppIcon.svg` | Brand app icon, vector source (1024×1024), from the Syncophant brand kit. |
+| `AppIcon-small.svg` | Small cut of the app icon (wider sync gaps) for the 16 and 32 px sizes. |
 | `AppIcon-1024.png` | Flattened master export of the SVG. |
 | `AppIcon.iconset/` | 10 PNGs: 16, 32, 128, 256, 512 at 1x and @2x. |
 | `AppIcon.icns` | Final bundle icon (`iconutil -c icns`). Info.plist: `CFBundleIconFile` = `AppIcon`. |
@@ -18,24 +19,29 @@ The gaps between the ears and the head are cut as two halves of a clockwise sync
 - **MenuBarIcon.svg:** gap 48 px, arrowhead 112 × 84 px, placed at the end of the straight side. Wider cuts survive at 16 pt; at @1x the arrows blur into the gaps.
 - Below about 48 px, use `MenuBarIcon.svg` instead of `Logo.svg`. The thin gaps in `Logo.svg` close up at that size.
 
-## Mark (original, no third-party or SF Symbol artwork)
+## App icon
 
-- **Tile:** 824×824 rounded rect (rx 185) centered on the 1024 canvas (macOS icon grid, 100 px margin), vertical blue gradient `#4DA3FF` → `#0A5FDB`, soft black drop shadow (dy 14, blur 14, 28%).
-- **Elephant head and trunk:** one continuous white→`#DCEBFF` path. Round head about 328 px wide centered at x=512; the trunk drops from the right of the chin and ends in a rounded curl toward the left, so it reads as a trunk even at 32 px. Soft blue shadow (`#06307A`, 35%) separates it from the tile.
-- **Eyes:** two `#0A5FDB` dots, r 22, at (448, 456) and (576, 456).
-- **Ears as sync rings:** two 54 px round-capped strokes, white at 62% opacity, radius 150, each an open ring of about 270° with its gap facing the head. Left ring is centered at (370, 470) and right ring at (654, 470). Together they read as ears and as a two-sided sync loop, and the circular disc form hints at storage media.
-- No text, no fine detail; smallest feature (eye) is 44 px at 1024.
+The white mark on a Syncophant Blue glass tile: `#4DA3FF` to `#0A5FDB`, 824 px tile with 185 px corners on the 1024 px canvas (macOS grid), a thin light rim and a soft top sheen. The sync gaps show the tile through. This is the only place the mark is blue or sits on a gradient. No text or badges on the tile.
+
+- 128 px and up: downscaled from `AppIcon-1024.png`.
+- 16 and 32 px (and their @2x): rendered from `AppIcon-small.svg`, whose wider gaps survive at that size.
 
 ## Regenerate
 
 ```sh
 # SVG -> PNG with alpha (ImageMagick's own SVG renderer drops gradients/filters; use Chrome)
-"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless --disable-gpu \
-  --hide-scrollbars --default-background-color=00000000 --window-size=1024,1024 \
-  --screenshot=AppIcon-1024.png file://$PWD/AppIcon.svg
-for s in 16 32 128 256 512; do
-  magick AppIcon-1024.png -filter Lanczos -resize ${s}x${s} AppIcon.iconset/icon_${s}x${s}.png
-  magick AppIcon-1024.png -filter Lanczos -resize $((s*2))x$((s*2)) AppIcon.iconset/icon_${s}x${s}@2x.png
+chrome="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+"$chrome" --headless --disable-gpu --hide-scrollbars --default-background-color=00000000 \
+  --window-size=1024,1024 --screenshot=AppIcon-1024.png file://$PWD/AppIcon.svg
+for s in 16 32 64; do   # the small cut, for 16 and 32 px at 1x and 2x
+  "$chrome" --headless --disable-gpu --hide-scrollbars --default-background-color=00000000 \
+    --window-size=$s,$s --screenshot=small-$s.png "data:text/html,<body style='margin:0'><img src='file://$PWD/AppIcon-small.svg' width=$s height=$s>"
+done
+cp small-16.png AppIcon.iconset/icon_16x16.png; cp small-32.png AppIcon.iconset/icon_16x16@2x.png
+cp small-32.png AppIcon.iconset/icon_32x32.png; cp small-64.png AppIcon.iconset/icon_32x32@2x.png
+for s in 128 256 512; do
+  sips -z $s $s AppIcon-1024.png --out AppIcon.iconset/icon_${s}x${s}.png
+  sips -z $((s*2)) $((s*2)) AppIcon-1024.png --out AppIcon.iconset/icon_${s}x${s}@2x.png
 done
 iconutil -c icns AppIcon.iconset -o AppIcon.icns
 ```
