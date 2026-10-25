@@ -2,6 +2,10 @@ import Foundation
 
 public enum StorageProvider: String, Codable, CaseIterable, Sendable {
     case hetzner, sftp, webdav, s3, smb
+    case dropbox, onedrive, box, googledrive
+
+    /// The cloud drive this provider signs in to, if it is one.
+    public var oauthService: OAuthService? { OAuthService(rawValue: rawValue) }
 }
 
 public struct StorageConnection: Identifiable, Codable, Hashable, Sendable {
@@ -79,6 +83,9 @@ public protocol RemoteStore: Sendable {
     /// No-clobber destination publication. Copy-only backends retain the source until verification.
     func publish(from: String, to: String) async throws
     func replace(from: String, to: String, expectedVersion: String) async throws
+    /// Sends deliberately conflicting conditional writes to the existing file at `path` and requires the
+    /// server to refuse each one, leaving the file unchanged. Throws `CompatibilityProblem` otherwise.
+    func verifyWritePreconditions(path: String) async throws
 }
 
 extension RemoteStore {
@@ -91,6 +98,8 @@ extension RemoteStore {
     public func replace(from: String, to: String, expectedVersion: String) async throws {
         throw CoreKitError.remote("This storage does not support conditional replacement.")
     }
+    /// Protocols whose no-clobber rename is enforced by the filesystem have no server preconditions to probe.
+    public func verifyWritePreconditions(path: String) async throws { }
 }
 
 public enum CoreKitError: Error, LocalizedError, Equatable, Sendable {

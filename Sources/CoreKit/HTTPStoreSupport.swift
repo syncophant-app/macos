@@ -224,6 +224,27 @@ enum HTTPFileOperations {
         } catch { HTTPStoreSupport.cleanup(file); throw error }
     }
 
+    /// A create-only PUT over the file and a PUT against a made-up version must both be refused.
+    static func verifyPreconditions(_ transport: any HTTPFileTransport, path: String) async throws {
+        let info = try await transport.inspect(path)
+        guard !info.directory else { throw CoreKitError.unsafePath(path) }
+        let file = try HTTPStoreSupport.temporary()
+        defer { HTTPStoreSupport.cleanup(file) }
+        try Data("syncophant precondition check".utf8).write(to: file)
+        do {
+            try await transport.put(path, file: file, previous: nil)
+            throw CompatibilityProblem.overwritesExisting
+        } catch CoreKitError.alreadyExists { } catch CoreKitError.itemChanged { }
+        // Hex digits only, so services that validate their version format (Dropbox revs) still answer with a conflict.
+        let made = UUID().uuidString.lowercased().filter(\.isHexDigit)
+        let stale = HTTPFileInfo(size: info.size, modified: info.modified, etag: "\"" + made + "\"", directory: false)
+        do {
+            try await transport.put(path, file: file, previous: stale)
+            throw CompatibilityProblem.acceptsStaleWrites
+        } catch CoreKitError.itemChanged { }
+        guard try await transport.inspect(path) == info else { throw CompatibilityProblem.acceptsStaleWrites }
+    }
+
     static func read(_ transport: any HTTPFileTransport, path: String, offset: Int64, length: Int) async throws -> Data {
         try PathRules.validateRange(offset: offset, length: length)
         let info = try await transport.inspect(path)

@@ -117,6 +117,9 @@ class Handler(BaseHTTPRequestHandler):
                     put(params['path'], params['put'].encode())
                 if params.get('fault'):
                     CONTROLS[params['path']] = params['fault']
+                if 'ignorePreconditions' in params:
+                    # Models a server that accepts If-Match/If-None-Match/Overwrite headers but never enforces them.
+                    CONTROLS['*ignore-preconditions'] = params['ignorePreconditions']
                 return self.send(200, b'{}')
             if path == '/__fixture/state':
                 return self.send(200, json.dumps({'files': {k: {'size': len(v[0]), 'sha256': hashlib.sha256(v[0]).hexdigest(), 'etag': v[1]} for k, v in FILES.items()}, 'history': HISTORY, 'multipart': len(MULTIPART)}).encode())
@@ -165,10 +168,11 @@ class Handler(BaseHTTPRequestHandler):
                 if path not in FILES:
                     return self.send(404)
                 destination = urllib.parse.unquote(urllib.parse.urlsplit(self.headers.get('Destination', '')).path)
-                if destination in FILES:
+                ignoring = CONTROLS.get('*ignore-preconditions')
+                if destination in FILES and not ignoring:
                     if self.headers.get('Overwrite') == 'F':
                         return self.send(412)
-                if not self.conditions(path):
+                if not ignoring and not self.conditions(path):
                     return self.send(412)
                 FILES[destination] = FILES.pop(path)
                 return self.send(201)
@@ -179,7 +183,7 @@ class Handler(BaseHTTPRequestHandler):
                 if fault == 'race-put':
                     put(path, b'external-writer')
                     CONTROLS.pop(path)
-                if not self.conditions(path):
+                if not CONTROLS.get('*ignore-preconditions') and not self.conditions(path):
                     return self.send(412)
                 new = path not in FILES
                 put(path, body)

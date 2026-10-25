@@ -510,6 +510,7 @@ private struct ConnectionCard: View {
         case .webdav: return "WebDAV"
         case .s3: return "S3"
         case .smb: return "SMB"
+        case .dropbox, .onedrive, .box, .googledrive: return c.provider.oauthService?.title ?? ""
         }
     }
 

@@ -23,9 +23,9 @@ final class ConnectFlowState {
     func take() -> Handoff? { defer { handoff = nil }; return handoff }
 }
 
-/// The five kinds of storage, with the colour and glyph they use everywhere in setup.
+/// The kinds of storage, with the colour and glyph they use everywhere in setup.
 enum StorageKind: String, CaseIterable, Identifiable {
-    case hetzner, sftp, webdav, s3, smb
+    case hetzner, sftp, webdav, s3, smb, cloud
     var id: String { rawValue }
 
     var title: String {
@@ -35,15 +35,17 @@ enum StorageKind: String, CaseIterable, Identifiable {
         case .webdav: "WebDAV"
         case .s3: "S3-compatible"
         case .smb: "SMB share"
+        case .cloud: "Cloud drive"
         }
     }
     var blurb: String {
         switch self {
-        case .hetzner: "Token in, everything set up: box, sub-account, folder and keys"
-        case .sftp: "Any server you can ssh into"
-        case .webdav: "Nextcloud, ownCloud, Synology and more"
-        case .s3: "AWS, R2, B2, Wasabi, MinIO"
-        case .smb: "A NAS or another Mac"
+        case .hetzner: "One API token sets up everything"
+        case .sftp: "Any server you can ssh into, or rsync.net"
+        case .webdav: "Nextcloud, pCloud, Koofr, kDrive and more"
+        case .s3: "AWS, R2, B2, Hetzner, Wasabi and more"
+        case .smb: "A NAS, another Mac or Azure Files"
+        case .cloud: "Dropbox, OneDrive, Box, Google Drive"
         }
     }
     var symbol: String {
@@ -53,6 +55,7 @@ enum StorageKind: String, CaseIterable, Identifiable {
         case .webdav: "globe"
         case .s3: "cylinder.split.1x2"
         case .smb: "house"
+        case .cloud: "cloud"
         }
     }
     var color: Color {
@@ -62,10 +65,8 @@ enum StorageKind: String, CaseIterable, Identifiable {
         case .webdav: .teal
         case .s3: .orange
         case .smb: .purple
+        case .cloud: .blue
         }
-    }
-    var provider: StorageProvider {
-        switch self { case .hetzner: .hetzner; case .sftp: .sftp; case .webdav: .webdav; case .s3: .s3; case .smb: .smb }
     }
 }
 
@@ -114,10 +115,20 @@ struct Detection: Equatable {
             return Detection(kind: .hetzner, isToken: true, title: "Hetzner API token",
                              next: "Next you pick a Storage Box from your account.", confidence: 3)
         }
-        if lower.hasPrefix("s3://") || S3Preset.allCases.contains(where: { $0.matches(lower) }) {
-            let preset = S3Preset.allCases.first { $0.matches(lower) }
-            return Detection(kind: .s3, title: preset.map { "\($0.title) bucket" } ?? "S3-compatible bucket",
+        if let cloud = OAuthService.allCases.first(where: { s in s.webDomains.contains { ServicePreset.host(of: v).hasSuffix($0) } }) {
+            return Detection(kind: .cloud, title: cloud.label, next: "Next you add your own \(cloud.title) app key and sign in.", confidence: 3)
+        }
+        let service = ServicePreset.match(v)
+        if lower.hasPrefix("s3://") || service?.provider == .s3 {
+            return Detection(kind: .s3, title: service.map { "\($0.title) bucket" } ?? "S3-compatible bucket",
                              next: "You need an access key and secret next.", confidence: 3)
+        }
+        if let service, service.provider == .smb {
+            return Detection(kind: .smb, title: "\(service.title) share", next: "Sign in with the \(service.user.lowercased()) and its key.", confidence: 3)
+        }
+        if let service, service.provider == .webdav {
+            return Detection(kind: .webdav, title: "\(service.title) at \(ServicePreset.host(of: v))",
+                             next: "Syncophant checks it can store files safely when you connect.", confidence: 3)
         }
         if lower.hasPrefix("smb://") || lower.range(of: #"\.local(\b|/|$)"#, options: .regularExpression) != nil {
             let host = v.replacingOccurrences(of: "smb://", with: "", options: [.caseInsensitive, .anchored]).split(separator: "/").first.map(String.init) ?? v
@@ -130,51 +141,9 @@ struct Detection: Equatable {
         if lower.hasPrefix("sftp://") || lower.hasPrefix("ssh://") || v.contains("@")
             || lower.range(of: #"^[a-z0-9-]+(\.[a-z0-9-]+)+(:\d+)?$"#, options: .regularExpression) != nil {
             let a = ServerAddress.parse(v)
-            return Detection(kind: .sftp, title: "SFTP server \(a.host)", next: "You confirm its fingerprint and sign in next.",
+            return Detection(kind: .sftp, title: "\(service?.title ?? "SFTP server") \(a.host)", next: "You confirm its fingerprint and sign in next.",
                              confidence: v.contains("@") || lower.hasPrefix("sftp://") ? 3 : 2)
         }
-        return nil
-    }
-}
-
-/// S3 providers the Connect server form offers as chips. Endpoints are templates the person may edit.
-enum S3Preset: String, CaseIterable, Identifiable {
-    case aws, r2, b2, wasabi, other
-    var id: String { rawValue }
-    var title: String {
-        switch self { case .aws: "AWS"; case .r2: "Cloudflare R2"; case .b2: "Backblaze B2"; case .wasabi: "Wasabi"; case .other: "Other" }
-    }
-    var endpoint: String {
-        switch self {
-        case .aws: "https://s3.us-east-1.amazonaws.com"
-        case .r2: ""
-        case .b2: "https://s3.eu-central-003.backblazeb2.com"
-        case .wasabi: "https://s3.eu-central-2.wasabisys.com"
-        case .other: ""
-        }
-    }
-    var prompt: String {
-        switch self {
-        case .r2: "https://<account ID>.r2.cloudflarestorage.com"
-        default: "https://s3.example.com"
-        }
-    }
-    private var domain: String? {
-        switch self {
-        case .aws: "amazonaws.com"; case .r2: "r2.cloudflarestorage.com"; case .b2: "backblazeb2.com"; case .wasabi: "wasabisys.com"; case .other: nil
-        }
-    }
-    func matches(_ lower: String) -> Bool {
-        if self == .other { return lower.contains("digitaloceanspaces.com") }
-        return domain.map(lower.contains) ?? false
-    }
-    /// The signing region implied by an endpoint host, when the provider puts it there.
-    static func region(for endpoint: String) -> String? {
-        guard let host = URL(string: endpoint)?.host?.lowercased() else { return nil }
-        if host.hasSuffix("r2.cloudflarestorage.com") { return "auto" }
-        let parts = host.split(separator: ".")
-        if parts.count >= 4, parts[0] == "s3" { return String(parts[1]) }
-        if host == "s3.wasabisys.com" || host == "s3.amazonaws.com" { return "us-east-1" }
         return nil
     }
 }
@@ -347,35 +316,26 @@ struct AddStorageView: View {
     private var tiles: some View {
         VStack(alignment: .leading, spacing: 10) {
             SectionLabel("Or choose a type")
-            HStack(alignment: .top, spacing: 10) {
-                ForEach(StorageKind.allCases) { kind in tile(kind).frame(maxWidth: kind == .hetzner ? .infinity : nil) }
+            LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 10), count: 3), spacing: 10) {
+                ForEach(StorageKind.allCases) { kind in tile(kind) }
             }
         }
     }
 
     private func tile(_ kind: StorageKind) -> some View {
         let on = chosen == kind
-        let shape = RoundedRectangle(cornerRadius: 16, style: .continuous)
+        let shape = RoundedRectangle(cornerRadius: 14, style: .continuous)
         return Button { picked = kind; detecting = false } label: {
-            VStack(alignment: .leading, spacing: 8) {
-                HStack {
-                    KindIcon(symbol: kind.symbol, color: kind.color, size: 32)
-                    Spacer(minLength: 4)
-                    if kind == .hetzner {
-                        Text("Easiest").font(.system(size: 10.5, weight: .bold)).foregroundStyle(Palette.verified)
-                            .padding(.horizontal, 8).padding(.vertical, 2)
-                            .background(Color.green.opacity(0.18), in: Capsule())
-                    }
+            HStack(spacing: 12) {
+                KindIcon(symbol: kind.symbol, color: kind.color, size: 36)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(kind.title).font(.system(size: 13, weight: .semibold)).lineLimit(1)
+                    Text(kind.blurb).font(.system(size: 11.5)).foregroundStyle(.secondary)
+                        .lineLimit(2, reservesSpace: true)
                 }
-                Text(kind.title).font(.system(size: 13, weight: .semibold)).fixedSize(horizontal: false, vertical: true)
-                Text(kind.blurb).font(.system(size: 11.5)).foregroundStyle(.secondary)
-                    .fixedSize(horizontal: false, vertical: true)
                 Spacer(minLength: 0)
             }
-            .padding(14)
-            .frame(width: kind == .hetzner ? nil : 118, alignment: .topLeading)
-            .frame(minHeight: 132, alignment: .topLeading)
-            .frame(maxWidth: kind == .hetzner ? .infinity : nil, alignment: .topLeading)
+            .padding(12)
             .background(on ? kind.color.opacity(0.12) : Fill.one, in: shape)
             .overlay(shape.strokeBorder(on ? kind.color : .clear, lineWidth: 2))
             .contentShape(shape)

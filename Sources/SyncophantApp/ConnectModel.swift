@@ -81,7 +81,6 @@ final class ConnectModel {
     @ObservationIgnored private var bootstrap: SSHAuthentication?
     @ObservationIgnored private var credential: SSHAuthentication?
     @ObservationIgnored private var generatedKey: SSHKeyPair?
-    @ObservationIgnored private var testPath: String?
     @ObservationIgnored private var subaccountName: String?
 
     // MARK: Published Hetzner host keys
@@ -257,7 +256,7 @@ final class ConnectModel {
             list.append(Step(kind: .hostKey, title: "Checking the box’s fingerprint"))
             if plan.key { list.append(Step(kind: .installKey, title: "Adding this Mac’s key")) }
             list.append(Step(kind: .signIn, title: plan.subaccount ? "Opening \(folderName)" : "Creating \(folderName)"))
-            if plan.test { list.append(Step(kind: .preflight, title: "Sending and reading back 1 MB")) }
+            if plan.test { list.append(Step(kind: .preflight, title: "Testing safe reads and writes")) }
             list.append(Step(kind: .save, title: "Saving the sign-in to your Keychain"))
             list.append(Step(kind: .mount, title: "Adding \(displayName) to Finder"))
         } else {
@@ -265,7 +264,7 @@ final class ConnectModel {
             list.append(Step(kind: .hostKey, title: "Confirm its fingerprint"))
             if authentication == .generatedKey, !password.isEmpty { list.append(Step(kind: .installKey, title: "Add this Mac’s key")) }
             list.append(Step(kind: .signIn, title: "Sign in"))
-            list.append(Step(kind: .preflight, title: "Read and write 1 MB"))
+            list.append(Step(kind: .preflight, title: "Test safe reads and writes"))
             list.append(Step(kind: .save, title: "Save to your Keychain"))
             list.append(Step(kind: .mount, title: "Add to Finder"))
             stopsBeforeSave = true
@@ -277,7 +276,7 @@ final class ConnectModel {
     /// Forgets a previous run's state (the Mac key in the Keychain is kept; it is this Mac's identity).
     func reset() {
         approved = false; fingerprint = nil; previousFingerprint = nil; saved = nil; mounted = false
-        connection = nil; bootstrap = nil; credential = nil; generatedKey = nil; testPath = nil; subaccountName = nil
+        connection = nil; bootstrap = nil; credential = nil; generatedKey = nil; subaccountName = nil
         latency = nil; roundTrip = nil; steps = []; stopsBeforeSave = false
     }
 
@@ -415,27 +414,11 @@ final class ConnectModel {
             guard let c = connection, let credential else { throw AppError.unavailable("Setup lost its state. Start over.") }
             let (store, base) = try makeStore(c, auth: credential)
             do {
-                if let path = testPath { try await removeTestFile(path, store: store); testPath = nil }
-                let path = "/.syncophant-preflight-" + UUID().uuidString
-                testPath = path
-                var random = [UInt8](repeating: 0, count: 1_048_576)
-                guard SecRandomCopyBytes(kSecRandomDefault, random.count, &random) == errSecSuccess else { throw AppError.unavailable("Could not generate test bytes.") }
-                let data = Data(random), started = ProcessInfo.processInfo.systemUptime
-                try await store.write(path: path, offset: 0, data: data)
-                let received = try await store.read(path: path, offset: 0, length: data.count)
-                guard received == data else { throw CoreKitError.checksumMismatch }
-                roundTrip = max(0.001, ProcessInfo.processInfo.systemUptime - started)
-                try await store.remove(path: path); testPath = nil
+                roundTrip = try await StoreCompatibility.verify(store)
                 setState(.preflight, .running, note: NetProbe.seconds(roundTrip!))
                 await base.disconnect()
                 return true
-            } catch {
-                if let path = testPath {
-                    do { try await removeTestFile(path, store: store); testPath = nil }
-                    catch { await base.disconnect(); throw AppError.unavailable("Test cleanup failed. Try again to remove \(path) before continuing.") }
-                }
-                await base.disconnect(); throw error
-            }
+            } catch { await base.disconnect(); throw error }
         case .save:
             guard var c = connection, let credential else { throw AppError.unavailable("Setup lost its state. Start over.") }
             c.name = displayName
@@ -531,10 +514,6 @@ final class ConnectModel {
 
     private func sessionBudgetURL() throws -> URL { try SharedConfig.directory().appendingPathComponent("ssh-session-budget") }
 
-    private func removeTestFile(_ path: String, store: any RemoteStore) async throws {
-        do { try await store.remove(path: path) } catch CoreKitError.notFound { }
-    }
-
     var allDone: Bool { !steps.isEmpty && steps.allSatisfy { $0.state == .done } }
     /// Every step before saving has passed: the SFTP Connect button may run.
     var checkPassed: Bool {
@@ -555,6 +534,7 @@ final class ConnectModel {
     static func plain(_ error: Error, step: Step.Kind, port: Int) -> String {
         let text = message(for: error)
         let lower = text.lowercased()
+        if let problem = error as? CompatibilityProblem, let text = problem.errorDescription { return text }
         if (error as? CryptStoreError) == .authenticationOrCorruption {
             return "This folder holds files this passphrase can’t open. Choose an empty folder, or the passphrase used before."
         }

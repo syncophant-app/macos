@@ -104,6 +104,7 @@ extension StorageConnection {
         case .webdav: "WebDAV server"
         case .s3: "S3-compatible storage"
         case .smb: "SMB share"
+        case .dropbox, .onedrive, .box, .googledrive: provider.oauthService?.label ?? ""
         }
     }
     var kindSymbol: String {
@@ -113,6 +114,7 @@ extension StorageConnection {
         case .webdav: "globe"
         case .s3: "cloud"
         case .smb: "server.rack"
+        case .dropbox, .onedrive, .box, .googledrive: "cloud.fill"
         }
     }
 }

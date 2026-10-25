@@ -204,6 +204,9 @@ public actor S3Store: RemoteStore {
     }
     public func stat(path: String) async throws -> RemoteEntry { try await HTTPFileOperations.stat(transport, path: PathRules.normalize(path)) }
     public func checksum(path: String) async throws -> String { try await HTTPFileOperations.checksum(transport, path: PathRules.normalize(path)) }
+    public func verifyWritePreconditions(path: String) async throws {
+        try await HTTPFileOperations.verifyPreconditions(transport, path: PathRules.normalize(path))
+    }
     public func read(path: String, offset: Int64, length: Int) async throws -> Data {
         try await HTTPFileOperations.read(transport, path: PathRules.normalize(path), offset: offset, length: length)
     }

@@ -103,6 +103,57 @@ protect against a malicious server violating its own conditional/rename rules.
 1...604800 seconds. Temporary credentials can expire sooner. A signed URL is a
 bearer secret and must not be logged.
 
+## Cloud drives with your own OAuth app
+
+Dropbox, OneDrive, Box and Google Drive use the person's own OAuth app;
+Syncophant ships no client IDs. Setup shows the provider's console steps and
+the redirect URI `http://localhost:53682/`. Sign-in opens the browser, receives
+the redirect on a loopback-only listener, checks `state`, and exchanges the code
+with PKCE (Box has no PKCE and uses its client secret). Box and Google Drive need
+a client secret; Dropbox and OneDrive do not. The client, access token and
+refresh token are saved together in the connection's Keychain item.
+
+`OAuthSession` refreshes a token 60 seconds before expiry, or once after a 401
+(the rejected request was not applied, so the retry is safe). Box and Microsoft
+rotate refresh tokens, so the app and the File Provider extension refresh under
+one `flock` on `oauth-<id>.lock` in the app group. Each refresh first re-reads
+the Keychain and reuses a token another process already refreshed.
+
+`CloudStore` is one `RemoteStore` over a small transport per service, reusing
+`HTTPFileOperations` like WebDAV: uploads spool to private files, then publish
+with one create-only or version-conditional upload. Reads re-check the version
+after the download, and range reads need an exact 206. Deletes go to the
+service's trash. Removing a folder checks it is empty first. A file added in
+between goes to the trash with the folder, so it can still be restored.
+
+| Service | Version | Create-only | Stale write refused | No-clobber move |
+| --- | --- | --- | --- | --- |
+| Dropbox | `rev` | upload mode `add` | mode `update` + `strict_conflict` | `move_v2`, `autorename=false` |
+| OneDrive | eTag | `conflictBehavior=fail` | `If-Match` | `PATCH` (fails on name clash) |
+| Box | etag | 409 on name clash | `If-Match` | `PUT` with `If-Match`, 409 on clash |
+| Google Drive (Experimental) | `version` | client-side lookup | client-side compare | client-side lookup |
+
+Google Drive is labelled Experimental. It allows several items with one name in
+a folder and has no write preconditions, so its checks happen in the app and a
+change made elsewhere at the same moment can be lost or duplicated. Names held
+by more than one item are hidden from listings and refused on lookup. Google
+Docs are not files and are skipped. The consent screen must be "In production",
+because in "Testing" mode refresh tokens expire after 7 days.
+
+## Compatibility check before saving
+
+Every new connection runs `StoreCompatibility.verify` against the real server
+before Connect is enabled. In a fresh `/.syncophant-check-*` folder it writes
+1 MiB and reads it back, reads a byte range, requires a file revision, and
+publishes over an existing file, which must be refused. It then calls
+`verifyWritePreconditions`: HTTP stores send a create-only PUT and a PUT with a
+made-up ETag over that file, and the server must refuse both. Stores with
+conditional replacement must then replace with the current version. Last, it
+deletes the empty folder, which exercises WebDAV locking. A server that accepts
+a write it should refuse fails with `CompatibilityProblem` and is not saved.
+The provider presets in the app (`ServicePresets.swift`) only fill in
+templates; each brand still has to pass this check.
+
 ## Verification
 
 `swift test --filter NetworkStoreTests` starts independent Python standard-library

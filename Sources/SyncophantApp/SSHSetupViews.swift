@@ -79,7 +79,7 @@ struct FieldBox<Content: View>: View {
     }
 }
 
-/// A labelled one-line field, optionally secure, with a trailing hint.
+/// A labelled one-line field, optionally secure, with a short trailing hint and a longer caption below.
 struct LabeledField: View {
     let label: String
     @Binding var text: String
@@ -88,6 +88,7 @@ struct LabeledField: View {
     var mono = false
     var hint: String? = nil
     var hintTone: Tone = .neutral
+    var caption: String? = nil
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
             FieldLabel(label)
@@ -102,6 +103,9 @@ struct LabeledField: View {
                     Text(hint).font(.system(size: 11)).foregroundStyle(hintTone == .neutral ? AnyShapeStyle(.tertiary) : AnyShapeStyle(hintTone.text))
                         .lineLimit(1).fixedSize()
                 }
+            }
+            if let caption, !caption.isEmpty {
+                Text(caption).font(.system(size: 11.5)).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
             }
         }
     }

@@ -45,6 +45,7 @@ extension AppModel {
         case .webdav: return "WebDAV"
         case .s3: return c.region.map { "S3 · \($0)" } ?? "S3-compatible"
         case .smb: return "SMB share"
+        case .dropbox, .onedrive, .box, .googledrive: return c.provider.oauthService?.label ?? ""
         }
     }
 

@@ -7,7 +7,7 @@ OpenSSL 3 linkage, packaging and signing.
 
 ## Public contract
 
-`StorageProvider` (`hetzner`, `sftp`), `StorageConnection`, `RemoteEntry`,
+`StorageProvider` (`hetzner`, `sftp`, `webdav`, `s3`, `smb`, and the OAuth cloud drives `dropbox`, `onedrive`, `box`, `googledrive`), `StorageConnection`, `RemoteEntry`,
 `StoredItem`, `UploadReceipt` and `RemoteStore` follow `docs/INTEGRATION.md`.
 All public model initializers are available outside the module. Connections contain
 no credentials. `RemoteEntry.contentHash: String?` is optional SHA256 evidence.

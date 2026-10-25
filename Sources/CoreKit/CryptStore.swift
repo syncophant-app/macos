@@ -210,6 +210,10 @@ public actor CryptStore: RemoteStore {
         try await base.replace(from: encryptedSource, to: encryptedTarget, expectedVersion: raw.version)
     }
 
+    public func verifyWritePreconditions(path: String) async throws {
+        try await base.verifyWritePreconditions(path: encryptedPath(PathRules.normalize(path)))
+    }
+
     public func remove(path: String) async throws {
         let path = try PathRules.normalize(path)
         try beginOperation(path)

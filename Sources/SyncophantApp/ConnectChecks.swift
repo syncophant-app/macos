@@ -140,7 +140,7 @@ final class NearbySMB {
 }
 
 /// The connection check for WebDAV, S3 and SMB: reach (latency), secure connection (TLS version, not SMB),
-/// sign in, and a 1 MB write, read back and delete. Nothing is saved until Connect.
+/// sign in, and the compatibility test (`StoreCompatibility`). Nothing is saved until Connect.
 @MainActor @Observable
 final class ServerCheck {
     typealias Step = ConnectModel.Step
@@ -162,7 +162,7 @@ final class ServerCheck {
         defer { running = false }
         steps = [Step(kind: .reach, title: "Reach the server")]
             + (draft.provider == .smb ? [] : [Step(kind: .secure, title: "Secure connection")])
-            + [Step(kind: .signIn, title: "Sign in"), Step(kind: .preflight, title: "Read and write 1 MB")]
+            + [Step(kind: .signIn, title: "Sign in"), Step(kind: .preflight, title: "Test safe reads and writes")]
         let made: (StorageConnection, StorageCredentials)
         do { made = try draft.make() } catch { fail(.reach, error, port: 0); return }
         let (connection, credentials) = made
@@ -182,9 +182,9 @@ final class ServerCheck {
                     set(.secure, .done, note: try await NetProbe.tlsVersion(host: connection.host, port: connection.port))
                 case .signIn:
                     _ = try await store.list(path: "/")
-                    set(.signIn, .done, note: draft.provider == .s3 ? "access key" : draft.provider == .webdav && Self.looksLikeNextcloud(draft.endpoint) ? "app password" : "password")
+                    set(.signIn, .done, note: draft.provider.oauthService != nil ? draft.account : draft.provider == .s3 ? "access key" : (ServicePreset.match(draft.endpoint)?.secret ?? "password").lowercased())
                 default:
-                    roundTrip = try await Self.readWrite(store)
+                    roundTrip = try await StoreCompatibility.verify(store)
                     set(.preflight, .done, note: NetProbe.seconds(roundTrip!))
                 }
             } catch is CancellationError {
@@ -194,30 +194,6 @@ final class ServerCheck {
             }
         }
         verified = (draft, connection, credentials, store)
-    }
-
-    /// Writes 1 MB of random bytes, reads them back, compares and deletes. Returns the round-trip time.
-    static func readWrite(_ store: any RemoteStore) async throws -> TimeInterval {
-        let path = "/.syncophant-preflight-" + UUID().uuidString
-        var random = [UInt8](repeating: 0, count: 1_048_576)
-        guard SecRandomCopyBytes(kSecRandomDefault, random.count, &random) == errSecSuccess else { throw AppError.unavailable("Could not generate test bytes.") }
-        let data = Data(random), started = ProcessInfo.processInfo.systemUptime
-        do {
-            try await store.write(path: path, offset: 0, data: data)
-            let back = try await store.read(path: path, offset: 0, length: data.count)
-            guard back == data else { throw CoreKitError.checksumMismatch }
-            let elapsed = max(0.001, ProcessInfo.processInfo.systemUptime - started)
-            try await store.remove(path: path)
-            return elapsed
-        } catch {
-            try? await store.remove(path: path)
-            throw error
-        }
-    }
-
-    static func looksLikeNextcloud(_ address: String) -> Bool {
-        let a = address.lowercased()
-        return a.contains("remote.php") || a.contains("nextcloud") || a.contains("owncloud")
     }
 
     private func set(_ kind: Step.Kind, _ state: Step.State, note: String? = nil) {

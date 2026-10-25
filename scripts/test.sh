@@ -29,6 +29,11 @@ swiftc -swift-version 6 -target "$(uname -m)-apple-macos26.0" \
   scripts/app-state-self-check.swift -o .build/app-state-self-check
 .build/app-state-self-check
 swiftc -swift-version 6 -target "$(uname -m)-apple-macos26.0" \
+  -I .build/debug -I Sources/CSQLite -I Sources/CLibSSH2 -I .deps/include \
+  "${dependency_flags[@]}" -L .deps/lib -lssh2 -lssl -lcrypto -lz -lsqlite3 "${core_objects[@]}" \
+  Sources/SyncophantApp/ServicePresets.swift scripts/service-presets-self-check.swift -o .build/service-presets-self-check
+.build/service-presets-self-check
+swiftc -swift-version 6 -target "$(uname -m)-apple-macos26.0" \
   Sources/SyncophantApp/MenuBarIcon.swift scripts/menu-bar-icon-self-check.swift -o .build/menu-bar-icon-self-check
 .build/menu-bar-icon-self-check
 swiftc -swift-version 6 -target "$(uname -m)-apple-macos26.0" \

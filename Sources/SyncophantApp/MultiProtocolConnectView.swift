@@ -1,10 +1,10 @@
 import SwiftUI
 import CoreKit
 
-/// Connect server: one adaptive form for SFTP, WebDAV, S3 and SMB, with a live connection check on the right.
+/// Connect server: one adaptive form for SFTP, WebDAV, S3, SMB and cloud drives, with a live connection check on the right.
 /// Connect stays disabled until every check passes; nothing is saved before that.
 struct ConnectServerView: View {
-    static let kinds: [StorageKind] = [.sftp, .webdav, .s3, .smb]
+    static let kinds: [StorageKind] = [.sftp, .webdav, .s3, .smb, .cloud]
 
     @Environment(AppModel.self) private var app
     @Environment(\.dismiss) private var dismiss
@@ -15,7 +15,13 @@ struct ConnectServerView: View {
     @State private var webdav = StorageDraft(provider: .webdav)
     @State private var s3 = StorageDraft(provider: .s3, region: "us-east-1")
     @State private var smb = StorageDraft(provider: .smb)
-    @State private var preset: S3Preset = .other
+    @State private var cloud = StorageDraft(provider: .dropbox)
+    @State private var signingIn = false
+    @State private var signInError: String?
+    @State private var signInTask: Task<Void, Never>?
+    @State private var s3Service = ServicePreset.generic(.s3)
+    @State private var webdavService = ServicePreset.generic(.webdav)
+    @State private var smbService = ServicePreset.generic(.smb)
     @State private var nearby = NearbySMB()
     @State private var encryptionOpen = false
     @State private var passphrase = ""
@@ -48,7 +54,7 @@ struct ConnectServerView: View {
                     ForEach(Self.kinds) { Label(tabTitle($0), systemImage: $0.symbol).tag($0) }
                 }
                 .pickerStyle(.segmented)
-                .frame(width: 384)
+                .frame(width: 470)
                 .disabled(checking || connecting)
             }
         }
@@ -56,13 +62,21 @@ struct ConnectServerView: View {
         .task { await flow.loadSSHHosts() }
         .onAppear { nearby.start() }
         .onDisappear {
-            task?.cancel(); nearby.stop()
+            task?.cancel(); signInTask?.cancel(); nearby.stop()
             app.connectUI.encryptionPassphrase = nil
             passphrase = ""; passphraseAgain = ""; flow.password = ""; flow.passphrase = ""
         }
         .onChange(of: signature) { invalidate() }
         .onChange(of: flow.server) { flow.applySSHMatch() }
-        .onChange(of: s3.endpoint) { if let r = S3Preset.region(for: s3.endpoint) { s3.region = r } }
+        .onChange(of: s3.endpoint) {
+            if let r = ServicePreset.region(for: s3.endpoint) { s3.region = r }
+            if let p = ServicePreset.match(s3.endpoint, provider: .s3) { s3Service = p }
+        }
+        .onChange(of: webdav.endpoint) { if let p = ServicePreset.match(webdav.endpoint, provider: .webdav) { webdavService = p } }
+        .onChange(of: cloud.provider) { cloud.token = nil; cloud.account = ""; signInError = nil }
+        .onChange(of: cloud.clientID) { cloud.token = nil; cloud.account = "" }
+        .onChange(of: cloud.clientSecret) { cloud.token = nil; cloud.account = "" }
+        .onChange(of: smb.endpoint) { if let p = ServicePreset.match(smb.endpoint, provider: .smb) { smbService = p } }
         .onChange(of: sftpFinished) { _, finished in if finished { finishSFTP() } }
         .onChange(of: flow.running) { _, running in if !running, connecting, kind == .sftp, !sftpFinished { connecting = false } }
     }
@@ -84,14 +98,18 @@ struct ConnectServerView: View {
             if parts.count > 2 { smb.rootPath = "/" + parts.dropFirst(2).joined(separator: "/") }
         case .s3:
             let lower = text.lowercased()
-            preset = S3Preset.allCases.first { $0.matches(lower) } ?? .other
+            s3Service = ServicePreset.match(text, provider: .s3) ?? .generic(.s3)
             if lower.hasPrefix("s3://") {
                 let parts = text.dropFirst(5).split(separator: "/").map(String.init)
                 s3.bucket = parts.first ?? ""
-                if s3.endpoint.isEmpty { s3.endpoint = preset.endpoint }
+                if s3.endpoint.isEmpty { s3.endpoint = s3Service.endpoint }
             } else if let url = URL(string: text.contains("://") ? text : "https://" + text), let host = url.host {
                 s3.endpoint = "https://" + host + (url.port.map { ":\($0)" } ?? "")
                 if let first = url.pathComponents.dropFirst().first { s3.bucket = first }
+            }
+        case .cloud:
+            if let service = OAuthService.allCases.first(where: { s in s.webDomains.contains { ServicePreset.host(of: text).hasSuffix($0) } }) {
+                cloud.provider = service.provider
             }
         case .hetzner: break
         }
@@ -110,6 +128,7 @@ struct ConnectServerView: View {
             case .webdav: webdavFields
             case .s3: s3Fields
             case .smb: smbFields
+            case .cloud: cloudFields
             case .hetzner: EmptyView()
             }
             HStack(alignment: .top, spacing: 10) {
@@ -143,54 +162,124 @@ struct ConnectServerView: View {
     }
 
     private var webdavFields: some View {
-        let cloud = ServerCheck.looksLikeNextcloud(webdav.endpoint)
-        let product = webdav.endpoint.lowercased().contains("owncloud") || webdav.endpoint.lowercased().contains("remote.php/webdav") ? "ownCloud" : "Nextcloud"
-        return VStack(alignment: .leading, spacing: 14) {
-            LabeledField(label: "Address", text: $webdav.endpoint, prompt: "https://…", mono: true,
-                         hint: cloud ? product : nil, hintTone: .green)
-            LabeledField(label: "User name", text: $webdav.username)
-            LabeledField(label: cloud ? "App password" : "Password", text: $webdav.password,
-                         prompt: cloud ? "Create one in \(product) › Security" : "", secure: true,
-                         hint: cloud ? "Not your login password" : nil)
+        VStack(alignment: .leading, spacing: 14) {
+            providerPicker(.webdav, selection: $webdavService, endpoint: $webdav.endpoint)
+            LabeledField(label: "Address", text: $webdav.endpoint, prompt: webdavService.prompt.isEmpty ? "https://…" : webdavService.prompt,
+                         mono: true, caption: webdavService.note)
+            LabeledField(label: webdavService.user, text: $webdav.username)
+            LabeledField(label: webdavService.secret, text: $webdav.password, secure: true,
+                         caption: webdavService.secretHint.map { "\($0). Not your login password." })
         }
     }
 
     private var s3Fields: some View {
         VStack(alignment: .leading, spacing: 14) {
-            VStack(alignment: .leading, spacing: 6) {
-                FieldLabel("Provider")
-                HStack(spacing: 6) {
-                    ForEach(S3Preset.allCases) { p in
-                        Button(p.title) {
-                            preset = p
-                            if !p.endpoint.isEmpty || S3Preset.allCases.contains(where: { $0.endpoint == s3.endpoint }) { s3.endpoint = p.endpoint }
-                        }
-                        .buttonStyle(.plain)
-                        .font(.system(size: 12, weight: .semibold))
-                        .padding(.horizontal, 12).frame(height: 28)
-                        .foregroundStyle(preset == p ? Color.white : Color.primary)
-                        .background(preset == p ? Color.accentColor : Fill.two, in: Capsule())
-                        .accessibilityAddTraits(preset == p ? [.isSelected] : [])
-                    }
-                }
-                .motion(Motion.snappy, value: preset)
-            }
-            LabeledField(label: "Endpoint", text: $s3.endpoint, prompt: preset.prompt, mono: true,
-                         hint: !s3.endpoint.isEmpty && s3.endpoint == preset.endpoint ? "Filled in for you · change the region if yours differs" : nil)
-            if preset == .other || S3Preset.region(for: s3.endpoint) == nil {
+            providerPicker(.s3, selection: $s3Service, endpoint: $s3.endpoint)
+            LabeledField(label: "Endpoint", text: $s3.endpoint, prompt: s3Service.prompt.isEmpty ? "https://s3.example.com" : s3Service.prompt, mono: true,
+                         caption: !s3.endpoint.isEmpty && s3.endpoint == s3Service.endpoint ? "Filled in for you. Change the region in the address if yours differs." : s3Service.note)
+            if ServicePreset.region(for: s3.endpoint) == nil {
                 LabeledField(label: "Region", text: $s3.region, prompt: "us-east-1", mono: true)
             }
-            LabeledField(label: "Access key ID", text: $s3.username, mono: true)
-            LabeledField(label: "Secret access key", text: $s3.password, secure: true, mono: true)
+            LabeledField(label: s3Service.user, text: $s3.username, mono: true)
+            LabeledField(label: s3Service.secret, text: $s3.password, secure: true, mono: true)
             LabeledField(label: "Bucket", text: $s3.bucket, prompt: "my-bucket", mono: true,
-                         hint: S3Preset.region(for: s3.endpoint).map { "Region \($0)" })
+                         hint: ServicePreset.region(for: s3.endpoint).map { "Region \($0)" })
+        }
+    }
+
+    /// Named services for one protocol. Picking one fills in its address unless the person typed their own.
+    private func providerPicker(_ provider: StorageProvider, selection: Binding<ServicePreset>, endpoint: Binding<String>) -> some View {
+        VStack(alignment: .leading, spacing: 6) {
+            FieldLabel("Provider")
+            Picker("Provider", selection: Binding(get: { selection.wrappedValue }, set: { picked in
+                let typed = endpoint.wrappedValue
+                selection.wrappedValue = picked
+                if typed.isEmpty || ServicePreset.all.contains(where: { $0.endpoint == typed }) { endpoint.wrappedValue = picked.endpoint }
+            })) {
+                ForEach(ServicePreset.presets(for: provider)) { Text($0.title).tag($0) }
+            }
+            .labelsHidden().pickerStyle(.menu).fixedSize()
+        }
+    }
+
+    private var cloudService: OAuthService { cloud.provider.oauthService ?? .dropbox }
+
+    private var cloudFields: some View {
+        let service = cloudService
+        return VStack(alignment: .leading, spacing: 14) {
+            VStack(alignment: .leading, spacing: 6) {
+                FieldLabel("Provider")
+                HStack(spacing: 8) {
+                    Picker("Provider", selection: Binding(get: { service }, set: { cloud.provider = $0.provider })) {
+                        ForEach(OAuthService.allCases) { Text($0.isExperimental ? "\($0.title) (Experimental)" : $0.title).tag($0) }
+                    }
+                    .labelsHidden().pickerStyle(.menu).fixedSize()
+                    if service.isExperimental { ExperimentalBadge() }
+                }
+                if service.isExperimental {
+                    Text("Google Drive allows several files with the same name and can’t refuse an outdated change, so Syncophant checks these itself. A change made elsewhere at the same moment can be lost. Files that share a name are hidden, and Google Docs are skipped.")
+                        .font(.system(size: 11.5)).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
+                }
+            }
+            VStack(alignment: .leading, spacing: 6) {
+                FieldLabel("Use your own \(service.title) app")
+                ForEach(Array(service.setupSteps.enumerated()), id: \.offset) { index, step in
+                    HStack(alignment: .firstTextBaseline, spacing: 6) {
+                        Text("\(index + 1).").monospacedDigit().foregroundStyle(.secondary)
+                        Text(step).fixedSize(horizontal: false, vertical: true)
+                    }
+                    .font(.system(size: 12))
+                }
+                Link("Open the \(service.title) developer console", destination: service.consoleURL).font(.system(size: 12))
+            }
+            HStack(alignment: .bottom, spacing: 8) {
+                LabeledField(label: "Redirect URI", text: .constant(OAuthService.redirectURI), mono: true)
+                Button("Copy") {
+                    NSPasteboard.general.clearContents()
+                    NSPasteboard.general.setString(OAuthService.redirectURI, forType: .string)
+                }
+                .buttonStyle(.glass).padding(.bottom, 4)
+            }
+            LabeledField(label: service == .dropbox ? "App key" : "Client ID", text: $cloud.clientID, mono: true)
+            if service.requiresSecret {
+                LabeledField(label: "Client secret", text: $cloud.clientSecret, secure: true, mono: true,
+                             caption: "Stays in your Keychain and is sent only to \(service.title).")
+            }
+            HStack(spacing: 10) {
+                Button(signingIn ? "Waiting for your browser…" : cloud.token == nil ? "Sign In with \(service.title)…" : "Sign In Again…", action: signIn)
+                    .buttonStyle(.glass)
+                    .disabled(signingIn || app.isDemo || cloud.clientID.isEmpty || (service.requiresSecret && cloud.clientSecret.isEmpty))
+                if signingIn { Button("Cancel") { signInTask?.cancel() }.buttonStyle(.glass) }
+                if cloud.token != nil, !signingIn {
+                    Label(cloud.account, systemImage: "checkmark.circle.fill").font(.system(size: 12)).foregroundStyle(.green)
+                }
+            }
+            if let signInError { Text(signInError).font(.system(size: 11.5)).foregroundStyle(Palette.failure) }
+        }
+    }
+
+    private func signIn() {
+        signInError = nil
+        signingIn = true
+        let service = cloudService
+        let client = OAuthClient(clientID: cloud.clientID, clientSecret: service.requiresSecret ? cloud.clientSecret : nil)
+        signInTask = Task {
+            defer { signingIn = false }
+            do {
+                let result = try await CloudSignIn.run(service, client: client)
+                cloud.token = result.token
+                cloud.account = result.account
+            } catch is CancellationError {
+            } catch { signInError = message(for: error) }
         }
     }
 
     private var smbFields: some View {
         VStack(alignment: .leading, spacing: 14) {
-            LabeledField(label: "Server", text: $smb.endpoint, prompt: "nas.local", mono: true,
-                         hint: smb.endpoint.lowercased().hasSuffix(".local") ? "On your network" : nil, hintTone: .green)
+            providerPicker(.smb, selection: $smbService, endpoint: $smb.endpoint)
+            LabeledField(label: "Server", text: $smb.endpoint, prompt: smbService.prompt, mono: true,
+                         hint: smb.endpoint.lowercased().hasSuffix(".local") ? "On your network" : nil, hintTone: .green,
+                         caption: smbService.note)
             if !nearby.names.isEmpty {
                 HStack(spacing: 6) {
                     Text("Nearby").font(.system(size: 11.5)).foregroundStyle(.tertiary)
@@ -201,8 +290,8 @@ struct ConnectServerView: View {
                 }
             }
             LabeledField(label: "Share", text: $smb.share, prompt: "Files")
-            LabeledField(label: "User name", text: $smb.username)
-            LabeledField(label: "Password", text: $smb.password, secure: true)
+            LabeledField(label: smbService.user, text: $smb.username)
+            LabeledField(label: smbService.secret, text: $smb.password, secure: true)
         }
     }
 
@@ -303,12 +392,12 @@ struct ConnectServerView: View {
         if kind == .sftp {
             let visible = flow.steps.filter { $0.kind.rawValue < ConnectModel.Step.Kind.save.rawValue || $0.state != .pending }
             return visible.isEmpty ? [.init(kind: .reach, title: "Reach the server"), .init(kind: .hostKey, title: "Confirm its fingerprint"),
-                                      .init(kind: .signIn, title: "Sign in"), .init(kind: .preflight, title: "Read and write 1 MB")] : visible
+                                      .init(kind: .signIn, title: "Sign in"), .init(kind: .preflight, title: "Test safe reads and writes")] : visible
         }
         if !check.steps.isEmpty { return check.steps }
         return [.init(kind: .reach, title: "Reach the server")]
             + (kind == .smb ? [] : [.init(kind: .secure, title: "Secure connection")])
-            + [.init(kind: .signIn, title: "Sign in"), .init(kind: .preflight, title: "Read and write 1 MB")]
+            + [.init(kind: .signIn, title: "Sign in"), .init(kind: .preflight, title: "Test safe reads and writes")]
     }
 
     private var checking: Bool { kind == .sftp ? flow.running : check.running }
@@ -337,6 +426,7 @@ struct ConnectServerView: View {
         case .webdav: return webdav.complete
         case .s3: return s3.complete
         case .smb: return smb.complete
+        case .cloud: return cloud.complete
         case .hetzner: return false
         }
     }
@@ -407,11 +497,11 @@ struct ConnectServerView: View {
     // MARK: Draft plumbing
 
     private var draft: StorageDraft {
-        get { switch kind { case .s3: s3; case .smb: smb; default: webdav } }
+        get { switch kind { case .s3: s3; case .smb: smb; case .cloud: cloud; default: webdav } }
     }
 
     private func setDraft(_ change: (inout StorageDraft) -> Void) {
-        switch kind { case .s3: change(&s3); case .smb: change(&smb); default: change(&webdav) }
+        switch kind { case .s3: change(&s3); case .smb: change(&smb); case .cloud: change(&cloud); default: change(&webdav) }
     }
 
     private var folderBinding: Binding<String> {
@@ -427,10 +517,10 @@ struct ConnectServerView: View {
         switch kind {
         case .sftp: return flow.suggestedName
         case .webdav:
-            let a = webdav.endpoint.lowercased()
-            return a.contains("owncloud") ? "ownCloud" : ServerCheck.looksLikeNextcloud(a) ? "Nextcloud" : "WebDAV"
+            return webdavService.isGeneric ? "WebDAV" : webdavService.title
         case .s3: return s3.bucket.isEmpty ? "S3 bucket" : s3.bucket
         case .smb: return smb.share.isEmpty ? "Shared folder" : smb.share
+        case .cloud: return cloudService.title
         case .hetzner: return ""
         }
     }
@@ -441,7 +531,8 @@ struct ConnectServerView: View {
     private var signature: String {
         let d = draft
         let sftp = [flow.server, flow.remoteFolder, flow.authentication.rawValue, flow.password, flow.privateKey, flow.passphrase, flow.agentSocket]
-        let other = [d.endpoint, d.username, d.password, d.bucket, d.region, d.share, d.rootPath]
+        let other = [d.provider.rawValue, d.endpoint, d.username, d.password, d.bucket, d.region, d.share, d.rootPath,
+                     d.clientID, d.clientSecret, d.token?.refreshToken ?? ""]
         return ([kind.rawValue, encryptionSecret] + (kind == .sftp ? sftp : other)).joined(separator: "\u{1F}")
     }
 
@@ -459,6 +550,7 @@ struct ConnectServerView: View {
         case .webdav: "Connect a WebDAV server"
         case .s3: "Connect an S3-compatible bucket"
         case .smb: "Connect a shared folder"
+        case .cloud: "Connect a cloud drive"
         case .hetzner: ""
         }
     }
@@ -466,14 +558,25 @@ struct ConnectServerView: View {
     private var subtitle: String {
         switch kind {
         case .sftp: "Anything you can reach with ssh, including a Storage Box sub-account."
-        case .webdav: "Nextcloud, ownCloud, Synology, or a Storage Box over HTTPS."
-        case .s3: "Pick a provider and the endpoint fills itself in."
-        case .smb: "A NAS or another Mac on your network."
+        case .webdav: "Nextcloud, pCloud, Koofr, kDrive, a NAS or any WebDAV server over HTTPS."
+        case .s3: "AWS, R2, B2, Hetzner, Wasabi and more. Pick one and the endpoint fills itself in."
+        case .smb: "A NAS or another Mac on your network, or an Azure file share."
+        case .cloud: "Dropbox, OneDrive, Box or Google Drive, signed in with your own app keys."
         case .hetzner: ""
         }
     }
 
     private func tabTitle(_ k: StorageKind) -> String {
-        switch k { case .sftp: "SFTP"; case .webdav: "WebDAV"; case .s3: "S3"; case .smb: "SMB"; case .hetzner: "Hetzner" }
+        switch k { case .sftp: "SFTP"; case .webdav: "WebDAV"; case .s3: "S3"; case .smb: "SMB"; case .cloud: "Cloud"; case .hetzner: "Hetzner" }
+    }
+}
+
+/// Marks a provider whose safety checks are weaker than the others.
+struct ExperimentalBadge: View {
+    var body: some View {
+        Text("Experimental").font(.system(size: 10, weight: .bold)).foregroundStyle(.white)
+            .padding(.horizontal, 7).padding(.vertical, 2)
+            .background(Palette.caution, in: Capsule())
+            .accessibilityLabel("Experimental")
     }
 }

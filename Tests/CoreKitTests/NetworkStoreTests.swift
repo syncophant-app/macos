@@ -293,3 +293,29 @@ struct NetworkStoreTests {
         #expect(raced.history.contains { $0.method == "POST" && $0.uploadId != nil && $0.ifMatch != nil })
     }
 }
+
+struct StoreCompatibilityTests {
+    @Test func conformingStoresPassAndLeaveNothingBehind() async throws {
+        let fixture = try await HTTPFixture.start()
+        for store in [try fixture.webdav() as any RemoteStore, try fixture.s3() as any RemoteStore] {
+            _ = try await StoreCompatibility.verify(store)
+        }
+        #expect(try await fixture.state().files.keys.allSatisfy { !$0.contains("syncophant-check") })
+        let root = FileManager.default.temporaryDirectory.appendingPathComponent("compat-" + UUID().uuidString)
+        try FileManager.default.createDirectory(at: root, withIntermediateDirectories: false)
+        defer { try? FileManager.default.removeItem(at: root) }
+        _ = try await StoreCompatibility.verify(try LocalRemoteStore(root: root))
+        #expect(try FileManager.default.contentsOfDirectory(atPath: root.path).isEmpty)
+    }
+
+    @Test func serversThatIgnorePreconditionsAreRefused() async throws {
+        let fixture = try await HTTPFixture.start()
+        try await fixture.control(["path": "*", "ignorePreconditions": "1"])
+        for store in [try fixture.webdav() as any RemoteStore, try fixture.s3() as any RemoteStore] {
+            await #expect(throws: CompatibilityProblem.overwritesExisting) { try await StoreCompatibility.verify(store) }
+            try await store.write(path: "/seed", offset: 0, data: Data("seed".utf8))
+            await #expect(throws: CompatibilityProblem.overwritesExisting) { try await store.verifyWritePreconditions(path: "/seed") }
+        }
+        #expect(try await fixture.state().files.keys.allSatisfy { !$0.contains("syncophant-check") })
+    }
+}

@@ -193,6 +193,7 @@ private struct StorageCard: View {
         case .webdav: return c.endpoint?.absoluteString ?? c.host
         case .s3: return [c.endpoint?.host() ?? c.host, c.bucket].compactMap { $0 }.joined(separator: " · ")
         case .smb: return "smb://\(c.host)/\(c.share ?? "")"
+        case .dropbox, .onedrive, .box, .googledrive: return c.username.isEmpty ? c.host : c.username
         }
     }
 
@@ -208,6 +209,7 @@ private struct StorageCard: View {
         case .ssh(.privateKey(_, let passphrase)): signIn = passphrase == nil ? "Key for this Mac" : "Key for this Mac, with passphrase"
         case .ssh(.agent): signIn = "Key from your SSH agent"; usesAgent = true
         case .s3: signIn = "Access key in your Keychain"
+        case .oauth(let service, _, _): signIn = "Signed in through your own \(service.title) app"
         }
     }
 

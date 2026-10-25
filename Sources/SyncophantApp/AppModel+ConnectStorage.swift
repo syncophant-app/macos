@@ -1,7 +1,7 @@
 import Foundation
 import CoreKit
 
-/// What the Connect server form holds for WebDAV, S3 and SMB. Validation mirrors the stores so errors show before
+/// What the Connect server form holds for WebDAV, S3, SMB and cloud drives. Validation mirrors the stores so errors show before
 /// any network use.
 struct StorageDraft: Equatable {
     var provider: StorageProvider = .webdav
@@ -14,6 +14,11 @@ struct StorageDraft: Equatable {
     var share = ""
     var rootPath = "/"
     var encryptionPassword = ""
+    /// Cloud drives: the person's own OAuth app, and the sign-in it produced.
+    var clientID = ""
+    var clientSecret = ""
+    var token: OAuthToken?
+    var account = ""
 
     /// Problems a person can fix in the form, in plain words. Empty when the draft can be checked.
     var problems: [String] {
@@ -35,6 +40,7 @@ struct StorageDraft: Equatable {
     }
 
     var complete: Bool {
+        if let service = provider.oauthService { return problems.isEmpty && token != nil && !clientID.isEmpty && (!service.requiresSecret || !clientSecret.isEmpty) }
         guard problems.isEmpty, !endpoint.trimmingCharacters(in: .whitespaces).isEmpty, !username.isEmpty, !password.isEmpty else { return false }
         switch provider {
         case .s3: return !bucket.isEmpty && !region.isEmpty
@@ -51,6 +57,14 @@ struct StorageDraft: Equatable {
 
     /// Builds the connection and its Keychain credentials. Nothing is contacted.
     func make() throws -> (StorageConnection, StorageCredentials) {
+        if let service = provider.oauthService {
+            guard let token, !name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { throw AppError.unavailable("Sign in to \(service.title) first.") }
+            let root = try PathRules.normalize(rootPath.isEmpty ? "/" : rootPath)
+            return (StorageConnection(name: name, provider: provider, host: service.apiHost, port: 443, username: account, rootPath: root,
+                                      encryptionEnabled: !encryptionPassword.isEmpty),
+                    StorageCredentials(authentication: .oauth(service: service, client: OAuthClient(clientID: clientID, clientSecret: clientSecret), token: token),
+                                       encryptionPassword: encryptionPassword.isEmpty ? nil : encryptionPassword))
+        }
         guard [.webdav, .s3, .smb].contains(provider), !name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
               !password.isEmpty else { throw AppError.unavailable("Enter a name and credentials for your storage.") }
         let root = try PathRules.normalize(rootPath.isEmpty ? "/" : rootPath)

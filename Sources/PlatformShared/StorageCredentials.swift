@@ -6,6 +6,8 @@ struct StorageCredentials: Codable, Sendable {
         case ssh(SSHAuthentication)
         case password(String)
         case s3(accessKey: String, secretKey: String, sessionToken: String?)
+        /// A cloud drive signed in with the person's own OAuth app.
+        case oauth(service: OAuthService, client: OAuthClient, token: OAuthToken)
     }
     let authentication: Authentication
     var encryptionPassword: String?
@@ -37,6 +39,9 @@ struct StorageCredentials: Codable, Sendable {
             guard let endpoint = c.endpoint, let bucket = c.bucket, let region = c.region else { throw CoreKitError.connection("S3 endpoint, bucket or region is missing.") }
             base = try S3Store(endpoint: endpoint, bucket: bucket, region: region, accessKey: accessKey,
                                secretKey: secretKey, sessionToken: token, rootPath: c.rootPath)
+        case (let provider, .oauth(let service, let client, let token)) where provider == service.provider:
+            let session = OAuthSession(service: service, client: client, token: token, vault: try Self.vault(for: c.id))
+            base = try CloudStore(service: service, session: session, rootPath: c.rootPath)
         case (.smb, .password(let password)):
             guard let share = c.share else { throw CoreKitError.connection("The SMB share is missing.") }
             base = try SMBStore(server: c.host, share: share, username: c.username, password: password, rootPath: c.rootPath)
@@ -47,6 +52,19 @@ struct StorageCredentials: Codable, Sendable {
             return try CryptStore(base: base, password: password, password2: encryptionSalt ?? "", helperURL: SharedConfig.cryptHelperURL())
         }
         return base
+    }
+
+    /// Refreshed tokens are written back to this connection's Keychain item, so the app and the File Provider
+    /// extension share one token. Nothing is written for a connection that is not saved yet.
+    private static func vault(for id: UUID) throws -> OAuthVault {
+        OAuthVault(load: {
+            guard case .oauth(_, _, let token)? = try load(for: id)?.authentication else { return nil }
+            return token
+        }, save: { token in
+            guard let saved = try load(for: id), case .oauth(let service, let client, _) = saved.authentication else { return }
+            try StorageCredentials(authentication: .oauth(service: service, client: client, token: token),
+                                   encryptionPassword: saved.encryptionPassword, encryptionSalt: saved.encryptionSalt).save(for: id)
+        }, lockFile: try SharedConfig.directory().appendingPathComponent("oauth-\(id.uuidString).lock"))
     }
 
     static func makeStore(connection: StorageConnection) throws -> any RemoteStore {
