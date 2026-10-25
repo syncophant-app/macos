@@ -155,7 +155,8 @@ public struct HetznerClient: Sendable {
         guard (200..<300).contains(http.statusCode) else {
             let envelope = try? JSONDecoder().decode(ErrorResponse.self, from: data)
             let labels = ["password": "the generated password", "home_directory": "the home directory", "name": "the sub-account name", "access_settings": "the access settings", "description": "the description"]
-            let fields = envelope?.error.details?.fields?.compactMap { labels[$0.name] } ?? []
+            let inUse = envelope?.error.code == "uniqueness_error"
+            let fields = envelope?.error.details?.fields?.compactMap { labels[$0.name].map { inUse ? $0 + " (already in use)" : $0 } } ?? []
             if !fields.isEmpty { throw HetznerError.validation(fields: Array(Set(fields)).sorted()) }
             let retry = http.value(forHTTPHeaderField: "Retry-After").flatMap(Double.init)
                 ?? http.value(forHTTPHeaderField: "Retry-After").flatMap { value in

@@ -50,6 +50,27 @@ final class HetznerClientTests: XCTestCase {
         }
     }
 
+    func testNameInUseSaysSo() async throws {
+        let client = client([.init(status: 409, json: #"{"error":{"code":"uniqueness_error","message":"x","details":{"fields":[{"name":"name"}]}}}"#)])
+        do {
+            _ = try await client.createSubaccount(boxID: 42, username: "mac-a", password: "p", homeDirectory: "Syncophant")
+            XCTFail("Expected validation failure")
+        } catch {
+            XCTAssertTrue(error.localizedDescription.contains("the sub-account name (already in use)"))
+        }
+    }
+
+    func testAvailableSubaccountNameIsASCIIAndUnique() {
+        XCTAssertEqual(StorageSubaccount.availableName("mac-Amruth’s MacBook Pro", taken: []), "mac-amruth-s-macbook-pro")
+        XCTAssertEqual(StorageSubaccount.availableName("mac-Café", taken: []), "mac-caf")
+        XCTAssertEqual(StorageSubaccount.availableName("mac-a", taken: ["MAC-A", "mac-a-2"]), "mac-a-3")
+        XCTAssertEqual(StorageSubaccount.availableName("", taken: []), "subaccount")
+        let long = String(repeating: "x", count: 60)
+        let name = StorageSubaccount.availableName(long, taken: [String(long.prefix(50))])
+        XCTAssertEqual(name.count, 50)
+        XCTAssertTrue(name.hasSuffix("-2"))
+    }
+
     private func client(_ replies: [StubProtocol.Reply]) -> HetznerClient {
         StubProtocol.state.reset(replies)
         let config = URLSessionConfiguration.ephemeral

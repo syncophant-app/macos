@@ -144,4 +144,19 @@ public struct StorageSubaccount: Codable, Identifiable, Sendable {
     enum CodingKeys: String, CodingKey {
         case id, username, server, name, homeDirectory = "home_directory", accessSettings = "access_settings"
     }
+
+    /// A sub-account name Hetzner accepts: ASCII letters, digits and single dashes, at most 50 characters,
+    /// and not already used on the box (names are unique per box), so `-2`, `-3`… is added when needed.
+    public static func availableName(_ raw: String, taken: some Sequence<String>) -> String {
+        let taken = Set(taken.map { $0.lowercased() })
+        let slug = raw.lowercased().split { !($0.isASCII && ($0.isLetter || $0.isNumber)) }.joined(separator: "-")
+        let base = slug.isEmpty ? "subaccount" : String(slug.prefix(50))
+        var name = base, n = 2
+        while taken.contains(name) {
+            let suffix = "-\(n)"
+            name = String(base.prefix(50 - suffix.count)) + suffix
+            n += 1
+        }
+        return name
+    }
 }

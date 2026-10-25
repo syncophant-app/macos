@@ -142,12 +142,6 @@ final class ConnectModel {
         return plan.subaccount || !mainPassword.isEmpty
     }
 
-    var machineName: String {
-        let raw = Host.current().localizedName ?? "mac"
-        let slug = raw.lowercased().map { $0.isLetter || $0.isNumber ? String($0) : "-" }.joined()
-        return String("mac-\(slug)".prefix(50))
-    }
-
     /// Default friendly name for a box: its Hetzner name unless that is just the login (u123456).
     static func suggestedName(for box: StorageBox) -> String {
         let n = box.name.trimmingCharacters(in: .whitespaces)
@@ -371,8 +365,10 @@ final class ConnectModel {
             if connection == nil {
                 let generated = try PasswordGenerator.make()
                 model.noteContact(host: "api.hetzner.com", purpose: "Hetzner API · setup, quota and snapshots")
-                let sub = try await HetznerClient(token: apiToken)
-                    .createSubaccount(boxID: box.id, username: machineName, password: generated, homeDirectory: folder)
+                let client = HetznerClient(token: apiToken)
+                let taken = try await client.subaccounts(boxID: box.id).compactMap(\.name)
+                let name = StorageSubaccount.availableName("mac-" + (Host.current().localizedName ?? ""), taken: taken)
+                let sub = try await client.createSubaccount(boxID: box.id, username: name, password: generated, homeDirectory: folder)
                 bootstrap = .password(generated)
                 subaccountName = sub.username
                 connection = StorageConnection(name: displayName, provider: .hetzner, host: sub.server ?? box.server,
