@@ -34,14 +34,18 @@ private final class HTTPFixture: @unchecked Sendable {
         process.standardOutput = FileHandle.nullDevice
         do {
             try process.run()
-            for _ in 0..<100 {
+            // Cold subprocess startup competes with the parallel test suite on CI.
+            let deadline = ContinuousClock.now.advanced(by: .seconds(30))
+            while ContinuousClock.now < deadline {
                 if let text = try? String(contentsOf: ready, encoding: .utf8), let endpoint = URL(string: text) {
                     return HTTPFixture(process: process, directory: directory, endpoint: endpoint)
                 }
                 if !process.isRunning { break }
                 try await Task.sleep(for: .milliseconds(50))
             }
-            throw CoreKitError.connection("Local protocol fixture did not start.")
+            throw CoreKitError.connection(process.isRunning
+                ? "Local protocol fixture did not become ready within 30 seconds."
+                : "Local protocol fixture exited with status \(process.terminationStatus).")
         } catch {
             if process.isRunning { process.terminate(); process.waitUntilExit() }
             try? FileManager.default.removeItem(at: directory); throw error

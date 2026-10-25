@@ -21,7 +21,7 @@ private struct ControlFixture {
     }
 
     func waitForPartial() async throws {
-        let deadline = ContinuousClock.now.advanced(by: .seconds(0.5))
+        let deadline = ContinuousClock.now.advanced(by: .seconds(10))
         while ContinuousClock.now < deadline {
             let urls = try FileManager.default.contentsOfDirectory(at: remote, includingPropertiesForKeys: nil)
             for url in urls where url.lastPathComponent.hasPrefix(".synco-upload.partial-") {
@@ -29,7 +29,7 @@ private struct ControlFixture {
             }
             try await Task.sleep(for: .milliseconds(2))
         }
-        Issue.record("Upload did not write a partial within 500 ms")
+        Issue.record("Upload did not write a partial within 10 seconds")
         throw CancellationError()
     }
 
