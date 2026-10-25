@@ -81,7 +81,8 @@ private struct ControlFixture {
         let start = ContinuousClock.now
         task.cancel()
         await #expect(throws: CancellationError.self) { try await task.value }
-        #expect(start.duration(to: .now) < .seconds(0.5))
+        // Waiting out the 1 B/s limit would take ~100 s; the ceiling leaves room for a loaded CI runner.
+        #expect(start.duration(to: .now) < .seconds(5))
         #expect(try FileManager.default.contentsOfDirectory(atPath: f.remote.path) == ["file"])
         #expect(try Data(contentsOf: source) == data)
         #expect(try await f.store.read(path: "/file", offset: 0, length: 99) == original)
@@ -115,6 +116,7 @@ private struct ControlFixture {
         let start = ContinuousClock.now
         await engine.setBandwidthLimit(bytesPerSecond: nil)
         #expect(try await task.value.verified)
-        #expect(start.duration(to: .now) < .seconds(0.5))
+        // Waiting out the 1 B/s limit would take ~100 s; the ceiling leaves room for a loaded CI runner.
+        #expect(start.duration(to: .now) < .seconds(5))
     }
 }
