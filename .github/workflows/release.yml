@@ -10,7 +10,7 @@ concurrency:
   group: release-${{ github.ref }}
 jobs:
   release:
-    runs-on: macos-26
+    runs-on: blacksmith-6vcpu-macos-latest
     env:
       SYNCOPHANT_TEAM_ID: 654ASRW868
       SYNCOPHANT_DISTRIBUTION: 1
